@@ -862,6 +862,37 @@ h1, h2, h3, h4, h5, .display-type {
     background: var(--deep-maroon);
 }
 @media (max-width: 800px) {
+    .stage-rail {
+        height: auto !important;
+    }
+    .stage-rail .stage-inner {
+        position: relative;
+        height: auto;
+        overflow: visible;
+        padding: 80px 0;
+    }
+    .rail-header {
+        position: relative;
+        top: 0;
+        margin-bottom: 40px;
+    }
+    .rail-track-wrap {
+        overflow: visible;
+        padding: 0 5vw;
+    }
+    .rail-track {
+        flex-direction: column;
+        align-items: center;
+        transform: none !important;
+        width: 100%;
+        padding: 0;
+    }
+    .product-card {
+        flex: none;
+        width: 100%;
+        max-width: clamp(280px, 80vw, 380px);
+    }
+
     .rsvp-layout {
         flex-direction: column;
     }
@@ -928,6 +959,8 @@ h1, h2, h3, h4, h5, .display-type {
 .footer-date {
     color: rgba(244,239,230,0.6);
 }
+
+
 
 
 
