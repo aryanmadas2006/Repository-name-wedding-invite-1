@@ -431,10 +431,20 @@ function initEngine() {
             const elMinutes = document.getElementById('cd-minutes');
             const elSeconds = document.getElementById('cd-seconds');
             
-            if(elDays) elDays.textContent = String(days).padStart(2, '0');
-            if(elHours) elHours.textContent = String(hours).padStart(2, '0');
-            if(elMinutes) elMinutes.textContent = String(minutes).padStart(2, '0');
-            if(elSeconds) elSeconds.textContent = String(seconds).padStart(2, '0');
+            function setCd(el, val) {
+                if(!el) return;
+                const str = String(val).padStart(2, '0');
+                if(el.textContent !== str) {
+                    el.classList.remove('pop');
+                    void el.offsetWidth;
+                    el.textContent = str;
+                    el.classList.add('pop');
+                }
+            }
+            setCd(elDays, days);
+            setCd(elHours, hours);
+            setCd(elMinutes, minutes);
+            setCd(elSeconds, seconds);
         }, 1000);
     }
 
@@ -452,3 +462,4 @@ setTimeout(() => {
     populateDOM();
     initEngine();
 }, 50);
+
