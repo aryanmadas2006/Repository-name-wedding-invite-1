@@ -951,3 +951,26 @@ h1, h2, h3, h4, h5, .display-type {
 
 
 
+@media (max-width: 800px) {
+    /* Prevent zoom-out bug by strictly clipping the horizontal track */
+    .rail-track-wrap {
+        overflow: hidden !important;
+    }
+    
+    /* Responsive sizing for mobile cards */
+    .product-card {
+        flex: 0 0 clamp(260px, 75vw, 320px) !important;
+    }
+    .rail-track {
+        gap: 24px !important;
+    }
+    .card-plate {
+        margin: 16px 16px 0 !important;
+    }
+    .card-info {
+        padding: 20px 16px !important;
+    }
+    .card-title {
+        font-size: 28px !important;
+    }
+}
