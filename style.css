@@ -877,21 +877,30 @@ h1, h2, h3, h4, h5, .display-type {
         margin-bottom: 40px;
     }
     .rail-track-wrap {
-        overflow: visible;
-        padding: 0 5vw;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        padding-left: 5vw;
+        scrollbar-width: none;
+    }
+    .rail-track-wrap::-webkit-scrollbar {
+        display: none;
     }
     .rail-track {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        align-items: stretch;
         transform: none !important;
-        width: 100%;
+        width: max-content;
         padding: 0;
+        padding-right: 5vw;
+        gap: 24px;
     }
     .product-card {
-        flex: none;
-        width: 100%;
-        max-width: clamp(280px, 80vw, 380px);
+        flex: 0 0 clamp(280px, 75vw, 340px);
+        width: auto;
+        max-width: none;
     }
+    .rail-meter-wrap { display: none; }
 
     .rsvp-layout {
         flex-direction: column;
@@ -959,6 +968,8 @@ h1, h2, h3, h4, h5, .display-type {
 .footer-date {
     color: rgba(244,239,230,0.6);
 }
+
+
 
 
 
