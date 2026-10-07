@@ -165,12 +165,21 @@ function initEngine() {
     function onResize() {
         const isMobile = window.matchMedia('(max-width: 1023px)').matches;
         // Ignore tiny height changes caused by iOS address bar
-        if (windowW !== window.innerWidth || isMobile) {
-             windowH = window.innerHeight;
-        }
+        const widthChanged = window.innerWidth !== windowW;
+        if (widthChanged) windowH = window.innerHeight;
         windowW = window.innerWidth;
         if (cardTrack) {
-            trackOverflow = cardTrack.scrollWidth - windowW;
+            const cards = cardTrack.children;
+            if (cards.length > 0) {
+                const first = cards[0];
+                const last = cards[cards.length - 1];
+                const cs = getComputedStyle(cardTrack);
+                const contentW = (last.offsetLeft - first.offsetLeft) + last.offsetWidth 
+                               + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+                trackOverflow = Math.max(0, contentW - windowW);
+            } else {
+                trackOverflow = 0;
+            }
             document.documentElement.style.setProperty('--rail-overflow', `${trackOverflow}px`);
             
             if (stages[2] && stages[2].el) {

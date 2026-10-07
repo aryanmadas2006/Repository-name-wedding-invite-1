@@ -938,46 +938,6 @@ h1, h2, h3, h4, h5, .display-type {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    /* Responsive sizing for mobile cards */
-    .product-card {
-        flex: 0 0 clamp(260px, 75vw, 320px) !important;
-    }
-    .rail-track {
-        gap: 24px !important;
-    }
-    .card-plate {
-        margin: 16px 16px 0 !important;
-    }
-    .card-info {
-        padding: 20px 16px !important;
-    }
-    .card-title {
-        font-size: 28px !important;
-    }
-}
-@media (max-width: 800px) {
-    .rail-track {
-        padding-right: calc(55vw - (clamp(260px, 75vw, 320px) / 2)) !important;
-    }
-}
-
-
 @media (max-width: 1023px) {
     .rail-track-wrap {
         padding-left: 0 !important;
@@ -985,9 +945,8 @@ h1, h2, h3, h4, h5, .display-type {
     }
     .rail-track {
         gap: 20px !important;
-        padding-left: calc((100% - clamp(280px, 84vw, 400px)) / 2) !important;
-        padding-right: calc((100% - clamp(280px, 84vw, 400px)) / 2) !important;
-        will-change: transform !important;
+        padding-left: calc((100vw - clamp(280px, 84vw, 400px)) / 2) !important;
+        padding-right: calc((100vw - clamp(280px, 84vw, 400px)) / 2) !important;
     }
     .product-card {
         flex: 0 0 clamp(280px, 84vw, 400px) !important;
