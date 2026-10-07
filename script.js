@@ -1,0 +1,454 @@
+// Global Wedding Configuration
+const wedding = {
+    bride: "ANANYA",
+    groom: "ROHAN",
+    date: "12 DECEMBER 2026",
+    day: "SATURDAY",
+    venue: "THE ROYAL PALACE",
+    city: "JAIPUR, INDIA",
+    time: "07:00 PM",
+    story: "TWO STORIES.\nTWO FAMILIES.\nONE BEAUTIFUL BEGINNING.",
+    storySub: "From the moments that brought them together\nto the day they begin their next chapter.",
+    events: [
+        { id: "01", name: "ROKA", date: "10 DEC 2026", time: "10:00 AM", venue: "THE COURTYARD", desc: "The official beginning of our journey." },
+        { id: "02", name: "HALDI", date: "11 DEC 2026", time: "09:00 AM", venue: "THE GARDENS", desc: "A morning of color, joy and blessings." },
+        { id: "03", name: "MEHENDI", date: "11 DEC 2026", time: "03:00 PM", venue: "SUNSET TERRACE", desc: "Music, dancing and henna under the sky." },
+        { id: "04", name: "SANGEET", date: "11 DEC 2026", time: "08:00 PM", venue: "GRAND HALL", desc: "An evening of performances and celebration." },
+        { id: "05", name: "WEDDING", date: "12 DEC 2026", time: "07:00 PM", venue: "MAIN COURTYARD", desc: "An evening of vows, family and celebration." },
+        { id: "06", name: "RECEPTION", date: "13 DEC 2026", time: "08:00 PM", venue: "ROYAL BALLROOM", desc: "A grand finale to our wedding festivities." }
+    ],
+    details: [
+        { label: "DATE", value: "12 DECEMBER 2026" },
+        { label: "TIME", value: "07:00 PM" },
+        { label: "VENUE", value: "THE ROYAL PALACE" },
+        { label: "LOCATION", value: "JAIPUR, INDIA" },
+        { label: "DRESS CODE", value: "INDIAN FORMAL" },
+        { label: "ACCOMMODATION", value: "DETAILS SOON" }
+    ],
+    faqs: [
+        { q: "WHEN SHOULD WE ARRIVE?", a: "Please arrive by 6:30 PM for a 7:00 PM ceremony start." },
+        { q: "IS THERE A DRESS CODE?", a: "We request Indian Formal or Black Tie attire." },
+        { q: "IS PARKING AVAILABLE?", a: "Yes, valet parking will be available at the venue." },
+        { q: "ARE CHILDREN WELCOME?", a: "While we love your little ones, this will be an adults-only celebration." },
+        { q: "WHERE CAN WE STAY?", a: "We have blocked rooms at the venue. Please see the accommodation details." },
+        { q: "WHO SHOULD WE CONTACT?", a: "For any queries, please reach out to our planning team at details@wedding.com." }
+    ]
+};
+
+// 1. Populate DOM
+function populateDOM() {
+    document.querySelectorAll('.name-bride').forEach(el => el.textContent = wedding.bride);
+    document.querySelectorAll('.name-groom').forEach(el => el.textContent = wedding.groom);
+    document.querySelectorAll('.meta-city').forEach(el => el.textContent = wedding.city);
+    document.querySelectorAll('.meta-venue').forEach(el => el.textContent = wedding.venue);
+    document.querySelectorAll('.hero-line-date, .footer-date').forEach(el => el.textContent = wedding.date);
+    
+    const base = document.getElementById('manifesto-base');
+    const overlay = document.getElementById('manifesto-overlay');
+    if (base && overlay) {
+        const lines = wedding.story.split('\n').map(line => `<p class="serif-statement" data-split>${line}</p>`).join('');
+        base.innerHTML = lines;
+        overlay.innerHTML = lines;
+    }
+    const sub = document.querySelector('.manifesto-sub');
+    if (sub) sub.innerHTML = wedding.storySub.replace('\n', '<br>');
+    
+    const track = document.getElementById('card-track');
+    if (track) {
+        const imageMap = {
+            'ROKA': 'images/Roka%20gpt%20edited.png',
+            'HALDI': 'images/haldi%20gpt%20.png',
+            'MEHENDI': 'images/mehendi%20gpt.png',
+            'SANGEET': 'images/sangeet%20gpt.png',
+            'WEDDING': 'images/wedding%20gpt.png',
+            'RECEPTION': 'images/reception%20gpt.png'
+        };
+
+        track.innerHTML = wedding.events.map(ev => {
+            const imgSrc = imageMap[ev.name];
+            const plateContent = `<img src="${imgSrc}" style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;" alt="${ev.name}">`;
+            
+            return `
+            <article class="product-card event-card" data-rev>
+                <div class="card-inner-border">
+                    <div class="card-plate">${plateContent}</div>
+                    <div class="card-info">
+                        <span class="mono gold event-id">${ev.id}</span>
+                        <h3 class="card-title serif" data-split>${ev.name}</h3>
+                        <div class="card-meta">
+                            <span class="mono meta-text">${ev.date} &bull; ${ev.time}</span>
+                        </div>
+                        <div class="card-meta">
+                            <span class="mono meta-text">${ev.venue}</span>
+                        </div>
+                        <p class="event-desc serif">${ev.desc}</p>
+                    </div>
+                </div>
+            </article>
+        `}).join('');
+    }
+    
+    const table = document.getElementById('details-table');
+    if (table) {
+        table.innerHTML = wedding.details.map(d => `
+            <div class="table-row" data-rev>
+                <span class="mono">${d.label}</span>
+                <span class="table-dots"></span>
+                <span class="mono value">${d.value}</span>
+            </div>
+        `).join('');
+    }
+    
+    const faqList = document.getElementById('faq-list');
+    if (faqList) {
+        faqList.innerHTML = wedding.faqs.map(f => `
+            <details class="faq-row" data-rev>
+                <summary><span class="mono">${f.q}</span></summary>
+                <div class="faq-content"><p data-split>${f.a}</p></div>
+            </details>
+        `).join('');
+    }
+}
+
+// 2. Initialize Engine
+function initEngine() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-revealed');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('[data-split]').forEach(el => {
+        const text = el.textContent.trim();
+        if (!text) return;
+        el.innerHTML = '';
+        const words = text.split(/\s+/);
+        words.forEach((word, i) => {
+            const span = document.createElement('span');
+            span.className = 'word-wrap';
+            span.innerHTML = `<span class="word" style="transition-delay: ${i * 38}ms">${word}</span>`;
+            el.appendChild(span);
+            if (i < words.length - 1) {
+                el.appendChild(document.createTextNode(' '));
+            }
+        });
+        observer.observe(el);
+    });
+
+    document.querySelectorAll('[data-rev]').forEach((el) => {
+        let index = Array.from(el.parentNode.children).indexOf(el);
+        if (index === -1) index = 0;
+        el.style.setProperty('--d', `${index * 60}ms`);
+        observer.observe(el);
+    });
+
+    const stages = [
+        { el: document.querySelector('.stage-hero'), h: 280 },
+        { el: document.querySelector('.stage-manifesto'), h: 260 },
+        { el: document.querySelector('.stage-rail'), h: 340 },
+        { el: document.querySelector('.stage-artifact'), h: 420 },
+        { el: document.querySelector('.stage-season'), h: 300 }
+    ];
+
+    stages.forEach(stage => {
+        if (stage.el) stage.el.style.height = `${stage.h}svh`;
+    });
+
+    let windowH = window.innerHeight;
+    let windowW = window.innerWidth;
+    let trackOverflow = 0;
+    const cardTrack = document.getElementById('card-track');
+
+    function onResize() {
+        windowH = window.innerHeight;
+        windowW = window.innerWidth;
+        if (cardTrack) {
+            trackOverflow = cardTrack.scrollWidth - windowW;
+            document.documentElement.style.setProperty('--rail-overflow', `${trackOverflow}px`);
+        }
+    }
+    window.addEventListener('resize', onResize);
+
+    let ticking = false;
+
+    function updateScroll() {
+        stages.forEach((stage, i) => {
+            if (!stage.el) return;
+            const rect = stage.el.getBoundingClientRect();
+            const maxScroll = rect.height - windowH;
+            let progress = -rect.top / maxScroll;
+            progress = Math.max(0, Math.min(1, progress));
+            
+            if (i === 0) {
+                const y = progress * -90;
+                const scale = 1 - (progress * 0.26);
+                const alpha = 1 - progress * 1.5;
+                document.documentElement.style.setProperty('--hero-type-y', `${y}px`);
+                document.documentElement.style.setProperty('--hero-type-scale', scale);
+                document.documentElement.style.setProperty('--hero-type-alpha', Math.max(0, alpha));
+            } else if (i === 1) {
+                document.documentElement.style.setProperty('--manifesto-wipe', `${progress * 100}%`);
+                document.documentElement.style.setProperty('--manifesto-scale', 1 + progress * 0.05);
+            } else if (i === 2) {
+                document.documentElement.style.setProperty('--rail-progress', progress);
+            } else if (i === 3) {
+                document.documentElement.style.setProperty('--packet-alpha', Math.min(1, progress * 4));
+                document.documentElement.style.setProperty('--packet-enter', `${38 - Math.min(1, progress * 4) * 38}px`);
+                document.documentElement.style.setProperty('--packet-scale', 0.78 + Math.min(1, progress * 2) * 0.22);
+                document.documentElement.style.setProperty('--packet-copy-x', `${progress * -20}px`);
+                
+                const cut = Math.max(0, (progress - 0.8) * 5);
+                document.documentElement.style.setProperty('--packet-cut', cut);
+                
+                const phaseCount = 4;
+                let index = Math.floor(progress * phaseCount);
+                if (index >= phaseCount) index = phaseCount - 1;
+                
+                if (stage.lastIndex !== index) {
+                    stage.lastIndex = index;
+                    updateArtifactPhase(index);
+                }
+            } else if (i === 4) {
+                document.documentElement.style.setProperty('--season-y', `${-4 + progress * 8}%`);
+                document.documentElement.style.setProperty('--season-scale', 1.10 - progress * 0.045);
+                
+                const chapterIndex = Math.floor(progress * 3);
+                const finalIndex = Math.min(2, Math.max(0, chapterIndex));
+                
+                document.querySelectorAll('.chapter').forEach((ch, idx) => {
+                    ch.style.opacity = idx === finalIndex ? 1 : 0.3;
+                });
+            }
+        });
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(updateScroll);
+            ticking = true;
+        }
+    });
+
+    function updateArtifactPhase(index) {
+        const dateEl = document.getElementById('data-date');
+        const timeEl = document.getElementById('data-time');
+        const venueEl = document.getElementById('data-venue');
+        
+        if (!dateEl) return;
+        
+        if (index >= 1) {
+            dateEl.textContent = wedding.date;
+            dateEl.classList.remove('dim');
+        } else {
+            dateEl.textContent = "--";
+            dateEl.classList.add('dim');
+        }
+        
+        if (index >= 2) {
+            timeEl.textContent = wedding.time;
+            timeEl.classList.remove('dim');
+        } else {
+            timeEl.textContent = "--";
+            timeEl.classList.add('dim');
+        }
+        
+        if (index >= 3) {
+            venueEl.textContent = wedding.venue;
+            venueEl.classList.remove('dim');
+        } else {
+            venueEl.textContent = "--";
+            venueEl.classList.add('dim');
+        }
+    }
+
+    let time = 0;
+    function renderCanvases() {
+        time += 0.01;
+        
+        const canvasHero = document.getElementById('canvas-hero');
+        if (canvasHero) {
+            const ctx = canvasHero.getContext('2d');
+            const w = canvasHero.width;
+            const h = canvasHero.height;
+            ctx.clearRect(0, 0, w, h);
+            
+            ctx.strokeStyle = 'rgba(184,154,90,0.06)'; // Subtle gold
+            ctx.lineWidth = 1;
+            const cx = w / 2;
+            const cy = h / 2;
+            
+            for (let r = 80; r < Math.max(w, h); r += 60) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                const points = 16 + Math.floor(r / 60) * 8;
+                for (let i = 0; i < points; i++) {
+                    const angle = (i / points) * Math.PI * 2 + (time * 0.05 * (r % 120 === 0 ? 1 : -1));
+                    const x = cx + Math.cos(angle) * r;
+                    const y = cy + Math.sin(angle) * r;
+                    
+                    ctx.save();
+                    ctx.translate(x, y);
+                    ctx.rotate(angle);
+                    ctx.beginPath();
+                    ctx.moveTo(8, 0);
+                    ctx.lineTo(0, 8);
+                    ctx.lineTo(-8, 0);
+                    ctx.lineTo(0, -8);
+                    ctx.closePath();
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            }
+        }
+        
+        const canvasContour = document.getElementById('canvas-contour');
+        if (canvasContour) {
+            const ctx = canvasContour.getContext('2d');
+            const w = canvasContour.width;
+            const h = canvasContour.height;
+            ctx.clearRect(0, 0, w, h);
+            
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i < 15; i++) {
+                ctx.strokeStyle = (i % 4 === 0) ? '#B89A5A' : 'rgba(23,21,18,0.08)';
+                ctx.beginPath();
+                
+                const yBase = (h / 16) * (i + 1);
+                
+                for (let x = 0; x <= w; x += 20) {
+                    const yOffset = Math.sin(x * 0.003 + time * 0.3 + i * 0.1) * 40 + Math.cos(x * 0.001 - time * 0.2 + i * 0.2) * 20;
+                    if (x === 0) {
+                        ctx.moveTo(x, yBase + yOffset);
+                    } else {
+                        if (x % 100 === 0 && i % 4 !== 0) {
+                            ctx.lineTo(x, yBase + yOffset - 15);
+                            ctx.lineTo(x + 10, yBase + yOffset);
+                        } else {
+                            ctx.lineTo(x, yBase + yOffset);
+                        }
+                    }
+                }
+                ctx.stroke();
+            }
+        }
+        
+        requestAnimationFrame(renderCanvases);
+    }
+
+    function resizeCanvases() {
+        document.querySelectorAll('canvas').forEach(c => {
+            if (c.classList.contains('canvas-plate')) return;
+            const rect = c.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            c.width = rect.width * dpr;
+            c.height = rect.height * dpr;
+            const ctx = c.getContext('2d');
+            ctx.scale(dpr, dpr);
+        });
+    }
+    window.addEventListener('resize', resizeCanvases);
+
+    function drawPlates() {
+        document.querySelectorAll('.canvas-plate').forEach((c, index) => {
+            const rect = c.parentElement.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            c.width = rect.width * dpr;
+            c.height = rect.height * dpr;
+            const ctx = c.getContext('2d');
+            ctx.scale(dpr, dpr);
+            
+            const w = rect.width;
+            const h = rect.height;
+            
+            ctx.clearRect(0, 0, w, h);
+            
+            if (c.classList.contains('artifact-plate')) {
+                ctx.fillStyle = '#351719'; // Deep Maroon
+            } else {
+                ctx.fillStyle = '#F4EFE6'; // Cream for cards
+            }
+            ctx.fillRect(0, 0, w, h);
+            
+            ctx.lineWidth = 1;
+            ctx.translate(w/2, h/2 + 20); // shift down for arch layout
+            
+            if (c.classList.contains('artifact-plate')) {
+                ctx.strokeStyle = 'rgba(184,154,90,0.4)';
+                for (let i = 0; i < 16; i++) {
+                    ctx.rotate((Math.PI * 2) / 16);
+                    ctx.beginPath();
+                    ctx.ellipse(0, 40, 10, 60, 0, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                ctx.beginPath();
+                ctx.arc(0, 0, 15, 0, Math.PI * 2);
+                ctx.fillStyle = '#B89A5A';
+                ctx.fill();
+            } else {
+                ctx.strokeStyle = 'rgba(184,154,90,0.6)';
+                const petals = 8;
+                for(let i = 0; i < petals; i++) {
+                    ctx.rotate((Math.PI * 2) / petals);
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.quadraticCurveTo(15, 15, 0, 40);
+                    ctx.quadraticCurveTo(-15, 15, 0, 0);
+                    ctx.stroke();
+                }
+                ctx.beginPath();
+                ctx.arc(0, 0, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#B89A5A';
+                ctx.fill();
+            }
+            ctx.resetTransform();
+        });
+    }
+
+    function updateCountdown() {
+        // Set target date for countdown (Dec 12, 2026 19:00 local time)
+        const targetDate = new Date("2026-12-12T19:00:00").getTime();
+        
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            
+            if (distance < 0) return;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            const elDays = document.getElementById('cd-days');
+            const elHours = document.getElementById('cd-hours');
+            const elMinutes = document.getElementById('cd-minutes');
+            const elSeconds = document.getElementById('cd-seconds');
+            
+            if(elDays) elDays.textContent = String(days).padStart(2, '0');
+            if(elHours) elHours.textContent = String(hours).padStart(2, '0');
+            if(elMinutes) elMinutes.textContent = String(minutes).padStart(2, '0');
+            if(elSeconds) elSeconds.textContent = String(seconds).padStart(2, '0');
+        }, 1000);
+    }
+
+    onResize();
+    resizeCanvases();
+    drawPlates();
+    updateScroll();
+    renderCanvases();
+    updateArtifactPhase(0);
+    updateCountdown();
+}
+
+// 3. Boot
+setTimeout(() => {
+    populateDOM();
+    initEngine();
+}, 50);

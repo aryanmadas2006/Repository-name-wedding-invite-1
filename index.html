@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Wedding Celebration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@400;500;600;700&family=Martian+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 1. Hero Stage -->
+        <section class="stage stage-hero">
+            <div class="stage-inner">
+                <canvas id="canvas-hero"></canvas>
+                <div class="hero-lockup">
+                    <h3 class="hero-line hero-line-pre mono" data-split>A WEDDING CELEBRATION</h3>
+                    <div class="hero-line-names-stack serif">
+                        <h1 class="hero-name name-bride"></h1>
+                        <span class="hero-ampersand ampersand">&amp;</span>
+                        <h1 class="hero-name name-groom"></h1>
+                    </div>
+                    <h2 class="hero-line hero-line-date mono" data-split></h2>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Manifesto Stage -->
+        <section class="stage stage-manifesto">
+            <div class="stage-inner">
+                <div class="manifesto-wrap">
+                    <div class="manifesto-base" id="manifesto-base"></div>
+                    <div class="manifesto-overlay" aria-hidden="true" id="manifesto-overlay"></div>
+                    <p class="manifesto-sub mono" data-rev></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Card Rail Stage -->
+        <section class="stage stage-rail">
+            <div class="stage-inner">
+                <div class="rail-header">
+                    <h2 data-split>THE CELEBRATIONS</h2>
+                    <span class="mono-hint">06 EVENTS</span>
+                </div>
+                <div class="rail-track-wrap">
+                    <div class="rail-track" id="card-track">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                <div class="rail-meter-wrap">
+                    <div class="rail-meter-fill"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Artifact Stage -->
+        <section class="stage stage-artifact">
+            <div class="stage-inner">
+                <div class="artifact-layout">
+                    <div class="artifact-copy">
+                        <h2 data-split>THE INVITATION</h2>
+                        <div class="invite-copy" data-rev>
+                            <p class="mono">Together with their families</p>
+                            <h3 class="serif couple-names"><span class="name-bride"></span> <span class="ampersand">&amp;</span> <span class="name-groom"></span></h3>
+                            <p class="mono">invite you to celebrate<br>their wedding.</p>
+                        </div>
+                    </div>
+                    <div class="artifact-panel">
+                        <div class="packet-wrap">
+                            <div class="packet">
+                                <div class="packet-header">
+                                    <span class="mono">THE WEDDING OF</span>
+                                    <h3 class="packet-title serif"><span class="name-bride"></span> <span class="ampersand">&amp;</span> <span class="name-groom"></span></h3>
+                                </div>
+                                <div class="packet-plate"><canvas class="canvas-plate artifact-plate"></canvas></div>
+                                <div class="packet-data">
+                                    <div class="data-row" data-rev><span class="mono">DATE</span><span class="mono value gold" id="data-date">--</span></div>
+                                    <div class="data-row" data-rev><span class="mono">TIME</span><span class="mono value gold" id="data-time">--</span></div>
+                                    <div class="data-row" data-rev><span class="mono">VENUE</span><span class="mono value gold" id="data-venue">--</span></div>
+                                </div>
+                                <div class="packet-perforation">
+                                    <div class="ornament-divider"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Season Band Stage -->
+        <section class="stage stage-season">
+            <div class="stage-inner">
+                <canvas id="canvas-contour"></canvas>
+                <div class="season-content">
+                    <h2 class="season-head" data-split>THE WEDDING DAY</h2>
+                    <div class="chapter-row">
+                        <div class="chapter" id="chapter-0" data-rev>
+                            <span class="mono chapter-label">I. THE CEREMONY</span>
+                            <p data-split>Sacred vows and traditions under the open sky.</p>
+                        </div>
+                        <div class="chapter" id="chapter-1" data-rev>
+                            <span class="mono chapter-label">II. THE PROMISE</span>
+                            <p data-split>A lifelong commitment witnessed by family and friends.</p>
+                        </div>
+                        <div class="chapter" id="chapter-2" data-rev>
+                            <span class="mono chapter-label">III. THE CELEBRATION</span>
+                            <p data-split>Music, dancing, and a feast to remember forever.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Beyond Pins: Static Content -->
+        
+        <section class="static-section countdown-section">
+            <div class="container countdown-container">
+                <div class="countdown-wrap">
+                    <h2 class="countdown-head mono" data-rev>THE DAY IS NEAR</h2>
+                    <div class="countdown-divider top-divider" data-rev></div>
+                    
+                    <div class="countdown-grid">
+                        <div class="countdown-item" data-rev>
+                            <span class="countdown-value serif" id="cd-days">00</span>
+                            <span class="countdown-label mono">DAYS</span>
+                        </div>
+                        <div class="countdown-sep" data-rev></div>
+                        <div class="countdown-item" data-rev>
+                            <span class="countdown-value serif" id="cd-hours">00</span>
+                            <span class="countdown-label mono">HOURS</span>
+                        </div>
+                        <div class="countdown-sep" data-rev></div>
+                        <div class="countdown-item" data-rev>
+                            <span class="countdown-value serif" id="cd-minutes">00</span>
+                            <span class="countdown-label mono">MINUTES</span>
+                        </div>
+                        <div class="countdown-sep" data-rev></div>
+                        <div class="countdown-item" data-rev>
+                            <span class="countdown-value serif" id="cd-seconds">00</span>
+                            <span class="countdown-label mono">SECONDS</span>
+                        </div>
+                    </div>
+                    
+                    <div class="countdown-divider bottom-divider" data-rev></div>
+                    <p class="countdown-sub serif" data-rev>UNTIL WE BEGIN OUR FOREVER</p>
+                    
+                    <div class="countdown-corner top-left"></div>
+                    <div class="countdown-corner top-right"></div>
+                    <div class="countdown-corner bottom-left"></div>
+                    <div class="countdown-corner bottom-right"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="static-section table-section">
+            <div class="container">
+                <h2 data-split>WEDDING DETAILS</h2>
+                <div class="price-table" id="details-table">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <section class="static-section faq-section">
+            <div class="container">
+                <h2 data-split>FAQS</h2>
+                <div class="faq-list" id="faq-list">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP Section -->
+        <section class="static-section rsvp-section">
+            <div class="container">
+                <div class="rsvp-layout">
+                    <div class="rsvp-copy">
+                        <h2 data-split>WILL YOU JOIN US?</h2>
+                        <p class="mono rsvp-sub" data-rev>We would be delighted to celebrate this beautiful beginning with you.</p>
+                    </div>
+                    <form class="rsvp-form" data-rev>
+                        <div class="form-group">
+                            <label class="mono">GUEST NAME(S)</label>
+                            <input type="text" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="mono">NUMBER OF GUESTS</label>
+                            <input type="number" class="form-input" min="1" max="10">
+                        </div>
+                        <div class="form-group">
+                            <label class="mono">ATTENDANCE</label>
+                            <select class="form-input">
+                                <option>JOYFULLY ACCEPT</option>
+                                <option>REGRETFULLY DECLINE</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="mono">MESSAGE</label>
+                            <textarea class="form-input" rows="3"></textarea>
+                        </div>
+                        <button type="button" class="btn-submit mono">SUBMIT RSVP</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col" data-rev>
+                        <span class="mono label">WITH LOVE</span>
+                        <span class="serif footer-names"><span class="name-bride"></span> <span class="ampersand">&amp;</span> <span class="name-groom"></span></span>
+                        <p class="mono footer-date"></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
