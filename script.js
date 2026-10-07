@@ -163,16 +163,43 @@ function initEngine() {
     const cardTrack = document.getElementById('card-track');
 
     function onResize() {
-        windowH = window.innerHeight;
+        const isMobile = window.matchMedia('(max-width: 1023px)').matches;
+        // Ignore tiny height changes caused by iOS address bar
+        if (windowW !== window.innerWidth || isMobile) {
+             windowH = window.innerHeight;
+        }
         windowW = window.innerWidth;
         if (cardTrack) {
             trackOverflow = cardTrack.scrollWidth - windowW;
             document.documentElement.style.setProperty('--rail-overflow', `${trackOverflow}px`);
+            
+            if (stages[2] && stages[2].el) {
+                if (isMobile) {
+                    stages[2].el.style.height = (trackOverflow + windowH) + 'px';
+                } else {
+                    stages[2].el.style.height = `${stages[2].h}svh`;
+                }
+            }
         }
     }
     window.addEventListener('resize', onResize);
     window.addEventListener('orientationchange', () => setTimeout(onResize, 100));
     window.addEventListener('load', onResize);
+    
+    if (document.fonts) {
+        document.fonts.ready.then(onResize);
+    }
+    
+    if (cardTrack) {
+        cardTrack.querySelectorAll('img').forEach(img => {
+            if (img.complete) onResize();
+            else img.addEventListener('load', onResize);
+        });
+        
+        if (window.ResizeObserver) {
+            new ResizeObserver(() => onResize()).observe(cardTrack);
+        }
+    }
 
     let ticking = false;
 
