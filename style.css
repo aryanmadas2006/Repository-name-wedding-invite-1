@@ -154,6 +154,26 @@ h1, h2, h3, h4, h5, .display-type {
     height: 100%;
     pointer-events: none;
 }
+.hero-image-wrap {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    pointer-events: none;
+}
+.hero-portrait {
+    max-height: 85vh;
+    max-width: 85vw;
+    height: auto;
+    width: auto;
+    border: 1px solid rgba(184, 154, 90, 0.25);
+    padding: 6px;
+    background-color: transparent;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    opacity: 0.55;
+}
 .hero-lockup {
     position: relative;
     z-index: 10;
@@ -908,6 +928,7 @@ h1, h2, h3, h4, h5, .display-type {
 .footer-date {
     color: rgba(244,239,230,0.6);
 }
+
 
 
 
