@@ -203,6 +203,7 @@ h1, h2, h3, h4, h5, .display-type {
     justify-content: center;
     padding: 0 5vw;
 }
+.manifesto-wrap [data-split]:not(.is-revealed) { visibility: hidden; }
 .manifesto-wrap {
     position: relative;
     width: 100%;
@@ -907,6 +908,7 @@ h1, h2, h3, h4, h5, .display-type {
 .footer-date {
     color: rgba(244,239,230,0.6);
 }
+
 
 
 
