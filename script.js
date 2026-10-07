@@ -56,12 +56,12 @@ function populateDOM() {
     const track = document.getElementById('card-track');
     if (track) {
         const imageMap = {
-            'ROKA': 'images/Roka%20gpt%20edited.png',
-            'HALDI': 'images/haldi%20gpt%20.png',
-            'MEHENDI': 'images/mehendi%20gpt.png',
-            'SANGEET': 'images/sangeet%20gpt.png',
-            'WEDDING': 'images/wedding%20gpt.png',
-            'RECEPTION': 'images/reception%20gpt.png'
+            'ROKA': 'images/Roka%20gpt%20edited-opt.jpg',
+            'HALDI': 'images/haldi%20gpt%20-opt.jpg',
+            'MEHENDI': 'images/mehendi%20gpt-opt.jpg',
+            'SANGEET': 'images/sangeet%20gpt-opt.jpg',
+            'WEDDING': 'images/wedding%20gpt-opt.jpg',
+            'RECEPTION': 'images/reception%20gpt-opt.jpg'
         };
 
         track.innerHTML = wedding.events.map(ev => {
@@ -171,6 +171,8 @@ function initEngine() {
         }
     }
     window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', () => setTimeout(onResize, 100));
+    window.addEventListener('load', onResize);
 
     let ticking = false;
 

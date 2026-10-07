@@ -46,7 +46,7 @@
 }
 
 body {
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 /* Typography Base */
@@ -117,6 +117,7 @@ h1, h2, h3, h4, h5, .display-type {
 .stage-inner {
     position: sticky;
     top: 0;
+    height: 100vh;
     height: 100svh;
     width: 100%;
     overflow: hidden;
@@ -230,7 +231,7 @@ h1, h2, h3, h4, h5, .display-type {
     max-width: 1200px;
     text-align: center;
     transform: scale(var(--manifesto-scale));
-    will-change: transform;
+    
 }
 .serif-statement {
     font-family: var(--font-serif);
@@ -285,8 +286,8 @@ h1, h2, h3, h4, h5, .display-type {
     gap: 40px;
     width: max-content;
     padding-right: 5vw; 
-    transform: translateX(calc(-1 * var(--rail-progress) * var(--rail-overflow)));
-    will-change: transform;
+    transform: translate3d(calc(-1 * var(--rail-progress) * var(--rail-overflow)), 0, 0);
+    
 }
 .product-card {
     flex: 0 0 clamp(280px, 30vw, 380px);
@@ -362,7 +363,7 @@ h1, h2, h3, h4, h5, .display-type {
     background-color: var(--antique-gold);
     transform-origin: left center;
     transform: scaleX(var(--rail-progress));
-    will-change: transform;
+    
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -399,7 +400,7 @@ h1, h2, h3, h4, h5, .display-type {
     flex: 1;
     max-width: 400px;
     transform: translateX(var(--packet-copy-x));
-    will-change: transform;
+    
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -521,7 +522,7 @@ h1, h2, h3, h4, h5, .display-type {
     width: 100%;
     height: 100%;
     transform: translateY(var(--season-y)) scale(var(--season-scale));
-    will-change: transform;
+    
     pointer-events: none;
 }
 .season-content {
@@ -972,5 +973,10 @@ h1, h2, h3, h4, h5, .display-type {
     }
     .card-title {
         font-size: 28px !important;
+    }
+}
+@media (max-width: 800px) {
+    .rail-track {
+        padding-right: calc(55vw - (clamp(260px, 75vw, 320px) / 2)) !important;
     }
 }
