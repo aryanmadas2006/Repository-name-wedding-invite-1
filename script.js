@@ -69,12 +69,12 @@ function populateDOM() {
             const plateContent = `<img src="${imgSrc}" style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;" alt="${ev.name}">`;
             
             return `
-            <article class="product-card event-card" data-rev>
+            <article class="product-card event-card">
                 <div class="card-inner-border">
                     <div class="card-plate">${plateContent}</div>
                     <div class="card-info">
                         <span class="mono gold event-id">${ev.id}</span>
-                        <h3 class="card-title serif" data-split>${ev.name}</h3>
+                        <h3 class="card-title serif">${ev.name}</h3>
                         <div class="card-meta">
                             <span class="mono meta-text">${ev.date} &bull; ${ev.time}</span>
                         </div>
