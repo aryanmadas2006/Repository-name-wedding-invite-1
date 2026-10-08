@@ -21,5 +21,8 @@
   "dependencies": {
     "playwright": "^1.63.0",
     "puppeteer": "^25.12.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
   }
 }
