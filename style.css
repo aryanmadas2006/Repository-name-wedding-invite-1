@@ -964,3 +964,9 @@ h1, h2, h3, h4, h5, .display-type {
         font-size: 28px !important;
     }
 }
+
+/* iOS-safe rail (mobile only): the wrapper's native scroll position moves the cards,
+   instead of translating one very wide composited layer (which iOS rasterizes blurry). */
+.rail-native .rail-track { transform: none !important; }
+.rail-native .rail-track-wrap { overflow: hidden !important; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }

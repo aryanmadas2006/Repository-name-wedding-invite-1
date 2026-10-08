@@ -160,28 +160,34 @@ function initEngine() {
     let windowH = window.innerHeight;
     let windowW = window.innerWidth;
     let trackOverflow = 0;
+    let ticking = false;
     const cardTrack = document.getElementById('card-track');
+    const railWrap = document.querySelector('.rail-track-wrap');
+    const mqMobile = window.matchMedia('(max-width: 1023px)');
+    // Add ?rail=transform to the URL to compare with the old transform method.
+    const useScrollRail = !/[?&]rail=transform/.test(location.search);
 
     function onResize() {
-        const isMobile = window.matchMedia('(max-width: 1023px)').matches;
-        // Ignore tiny height changes caused by iOS address bar
+        const isMobile = mqMobile.matches;
+        // Ignore height-only changes (iOS address bar collapsing)
         const widthChanged = window.innerWidth !== windowW;
         if (widthChanged) windowH = window.innerHeight;
         windowW = window.innerWidth;
+        document.documentElement.classList.toggle('rail-native', isMobile && useScrollRail);
         if (cardTrack) {
             const cards = cardTrack.children;
             if (cards.length > 0) {
                 const first = cards[0];
                 const last = cards[cards.length - 1];
                 const cs = getComputedStyle(cardTrack);
-                const contentW = (last.offsetLeft - first.offsetLeft) + last.offsetWidth 
+                const contentW = (last.offsetLeft - first.offsetLeft) + last.offsetWidth
                                + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
-                trackOverflow = Math.max(0, contentW - windowW);
+                const viewW = (isMobile && railWrap) ? railWrap.clientWidth : windowW;
+                trackOverflow = Math.max(0, contentW - viewW);
             } else {
                 trackOverflow = 0;
             }
             document.documentElement.style.setProperty('--rail-overflow', `${trackOverflow}px`);
-            
             if (stages[2] && stages[2].el) {
                 if (isMobile) {
                     stages[2].el.style.height = (trackOverflow + windowH) + 'px';
@@ -190,6 +196,8 @@ function initEngine() {
                 }
             }
         }
+        stages.forEach(s => { s.lastP = undefined; });
+        updateScroll();
     }
     window.addEventListener('resize', onResize);
     window.addEventListener('orientationchange', () => setTimeout(onResize, 100));
@@ -210,15 +218,15 @@ function initEngine() {
         }
     }
 
-    let ticking = false;
-
     function updateScroll() {
         stages.forEach((stage, i) => {
             if (!stage.el) return;
             const rect = stage.el.getBoundingClientRect();
             const maxScroll = rect.height - windowH;
-            let progress = -rect.top / maxScroll;
+            let progress = maxScroll > 0 ? -rect.top / maxScroll : 0;
             progress = Math.max(0, Math.min(1, progress));
+            if (stage.lastP === progress) return;
+            stage.lastP = progress;
             
             if (i === 0) {
                 const y = progress * -90;
@@ -232,6 +240,9 @@ function initEngine() {
                 document.documentElement.style.setProperty('--manifesto-scale', 1 + progress * 0.05);
             } else if (i === 2) {
                 document.documentElement.style.setProperty('--rail-progress', progress);
+                if (railWrap) {
+                    railWrap.scrollLeft = (mqMobile.matches && useScrollRail) ? progress * trackOverflow : 0;
+                }
             } else if (i === 3) {
                 document.documentElement.style.setProperty('--packet-alpha', Math.min(1, progress * 4));
                 document.documentElement.style.setProperty('--packet-enter', `${38 - Math.min(1, progress * 4) * 38}px`);
@@ -269,7 +280,7 @@ function initEngine() {
             window.requestAnimationFrame(updateScroll);
             ticking = true;
         }
-    });
+    }, { passive: true });
 
     function updateArtifactPhase(index) {
         const dateEl = document.getElementById('data-date');
@@ -517,6 +528,35 @@ function initEngine() {
             setCd(elMinutes, minutes);
             setCd(elSeconds, seconds);
         }, 1000);
+    }
+
+    if (/[?&]debug=1/.test(location.search)) initDebugPanel();
+
+    function initDebugPanel() {
+        const box = document.createElement('div');
+        box.style.cssText = 'position:fixed;top:0;left:0;z-index:99999;font:10px/1.35 monospace;color:#fff;background:rgba(0,0,0,.78);padding:4px 6px;pointer-events:none;max-width:100vw;white-space:pre-wrap;word-break:break-all;';
+        document.body.appendChild(box);
+        setInterval(() => {
+            const de = document.documentElement, vv = window.visualViewport, ua = navigator.userAgent;
+            const uaTxt = /iPhone/.test(ua) ? 'iPhone (mobile site)' : (/Macintosh/.test(ua) ? 'MAC UA = DESKTOP SITE REQUESTED?' : ua.slice(0, 40));
+            const wide = [...document.querySelectorAll('body *')]
+                .filter(e => e !== box && !e.closest('#card-track'))
+                .map(e => ({ e, r: e.getBoundingClientRect().right }))
+                .sort((a, b) => b.r - a.r).slice(0, 3)
+                .map(o => o.e.tagName.toLowerCase() + '.' + String(o.e.className).split(' ')[0] + ' ' + Math.round(o.r));
+            const first = cardTrack && cardTrack.children[0];
+            box.textContent =
+                'UA ' + uaTxt + '\n' +
+                'inner ' + innerWidth + 'x' + innerHeight + ' dpr ' + devicePixelRatio + '\n' +
+                'clientW ' + de.clientWidth + ' scrollW ' + de.scrollWidth + ' bodyScrollW ' + document.body.scrollWidth + '\n' +
+                'visualViewport ' + (vv ? vv.width.toFixed(0) + ' scale ' + vv.scale.toFixed(2) : 'n/a') + '\n' +
+                'rail native:' + de.classList.contains('rail-native') + ' overflow:' + Math.round(trackOverflow) +
+                ' p:' + (parseFloat(getComputedStyle(de).getPropertyValue('--rail-progress')) || 0).toFixed(3) +
+                ' scrollL:' + (railWrap ? Math.round(railWrap.scrollLeft) : '-') + '\n' +
+                'wrapW ' + (railWrap ? railWrap.clientWidth : '-') + ' trackW ' + (cardTrack ? cardTrack.offsetWidth : '-') +
+                ' card0W ' + (first ? first.offsetWidth : '-') + '\n' +
+                'widest: ' + wide.join(' | ');
+        }, 500);
     }
 
     onResize();
