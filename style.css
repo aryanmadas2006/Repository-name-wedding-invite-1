@@ -945,11 +945,8 @@ h1, h2, h3, h4, h5, .display-type {
     }
     .rail-track {
         gap: 20px !important;
-        padding-left: calc((100vw - clamp(280px, 84vw, 400px)) / 2) !important;
-        padding-right: calc((100vw - clamp(280px, 84vw, 400px)) / 2) !important;
     }
     .product-card {
-        flex: 0 0 clamp(280px, 84vw, 400px) !important;
         will-change: auto !important;
     }
     .card-plate {
@@ -983,9 +980,34 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     object-fit: cover;
     object-position: center;
 }
+
 @media (max-width: 1023px) {
-    .product-card {
-        width: clamp(280px, 84vw, 400px);
-        max-width: clamp(280px, 84vw, 400px);
-    }
+  /* fallback card width for browsers without svh */
+  :root { --card-w: clamp(280px, 84vw, 400px); }
+
+  /* reserve space for header (top) and progress meter (bottom) */
+  .stage-rail .stage-inner { padding-top: 104px; padding-bottom: 72px; }
+  .rail-header { top: 24px; gap: 6px; }
+  .rail-meter-wrap { bottom: 36px; }
+
+  .rail-track {
+    padding-left: calc((100vw - var(--card-w)) / 2) !important;
+    padding-right: calc((100vw - var(--card-w)) / 2) !important;
+  }
+  .product-card {
+    flex: 0 0 var(--card-w) !important;
+    width: var(--card-w);
+    max-width: var(--card-w);
+  }
+  .card-info { padding: 16px 14px !important; gap: 8px; }
 }
+
+/* cap the card width by screen height so the whole card always fits below the header */
+@supports (height: 100svh) {
+  @media (max-width: 1023px) {
+    :root {
+      --card-w: max(260px, min(clamp(280px, 84vw, 400px), calc((100svh - 190px) * 0.63)));
+    }
+  }
+}
+
