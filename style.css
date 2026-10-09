@@ -5,6 +5,7 @@
     --muted-burgundy: #76272B;
     --antique-gold: #B89A5A;
     --off-white: #FFFDF8;
+    --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E");
     
     --hairline-heavy: rgba(23,21,18,.16);
     --hairline-light: rgba(23,21,18,.08);
@@ -1035,4 +1036,23 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 }
 .product-card:hover .venue-link::after {
     transform: translate(2px, -2px);
+}
+
+.static-section + .static-section::before,
+.static-section + .site-footer::before {
+    content: "";
+    display: block;
+    width: 72px;
+    height: 1px;
+    margin: -24px auto 56px;
+    background: var(--antique-gold);
+    opacity: 0.7;
+}
+
+/* Paper Grain Texture */
+.stage-manifesto .stage-inner,
+.stage-rail .stage-inner,
+.stage-season .stage-inner,
+.static-section:not(.countdown-section-new) {
+    background-image: var(--paper-grain);
 }

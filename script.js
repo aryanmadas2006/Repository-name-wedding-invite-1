@@ -522,29 +522,6 @@ function initEngine() {
         }, 1000);
     }
 
-    if (/[?&]debug=1/.test(location.search)) initDebugPanel();
-    function initDebugPanel() {
-        const box = document.createElement('div');
-        box.style.cssText = 'position:fixed;top:0;left:0;z-index:99999;font:10px/1.35 monospace;color:#fff;background:rgba(0,0,0,.78);padding:4px 6px;pointer-events:none;max-width:100vw;white-space:pre-wrap;word-break:break-all;';
-        document.body.appendChild(box);
-        setInterval(() => {
-            const de = document.documentElement, vv = window.visualViewport, ua = navigator.userAgent;
-            const uaTxt = /iPhone/.test(ua) ? 'iPhone ' + ((ua.match(/OS [\d_]+/) || [''])[0]) : (/Macintosh/.test(ua) ? 'MAC UA = DESKTOP SITE?' : ua.slice(0, 40));
-            const wide = [...document.querySelectorAll('body *')]
-                .filter(e => e !== box && !e.closest('#card-track'))
-                .map(e => ({ e, r: e.getBoundingClientRect().right }))
-                .sort((a, b) => b.r - a.r).slice(0, 3)
-                .map(o => o.e.tagName.toLowerCase() + '.' + String(o.e.className).split(' ')[0] + ' ' + Math.round(o.r));
-            box.textContent =
-                'UA ' + uaTxt + '\n' +
-                'inner ' + innerWidth + 'x' + innerHeight + ' dpr ' + devicePixelRatio + '\n' +
-                'clientW ' + de.clientWidth + ' scrollW ' + de.scrollWidth + '\n' +
-                'vv ' + (vv ? vv.width.toFixed(0) + ' scale ' + vv.scale.toFixed(2) : 'n/a') + '\n' +
-                'rail native:' + de.classList.contains('rail-native') + ' overflow:' + Math.round(trackOverflow) +
-                ' scrollL:' + (railWrap ? Math.round(railWrap.scrollLeft) : '-') + '\n' +
-                'widest: ' + wide.join(' | ');
-        }, 500);
-    }
 
     onResize();
     resizeCanvases();
