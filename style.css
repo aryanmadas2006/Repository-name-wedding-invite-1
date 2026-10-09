@@ -809,60 +809,7 @@ h1, h2, h3, h4, h5, .display-type {
     max-width: 600px;
 }
 
-/* RSVP Section */
-.rsvp-layout {
-    display: flex;
-    gap: 60px;
-    align-items: flex-start;
-}
-.rsvp-copy {
-    flex: 1;
-}
-.rsvp-sub {
-    font-size: 14px;
-    color: var(--muted);
-    margin-top: -20px;
-}
-.rsvp-form {
-    flex: 1;
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    background: var(--off-white);
-    padding: 40px;
-    border: 1px solid var(--ink);
-}
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-.form-input {
-    background: transparent;
-    border: 1px solid var(--hairline-heavy);
-    padding: 12px;
-    font-family: var(--font-body);
-    font-size: 16px;
-    color: var(--ink);
-    border-radius: 0;
-    outline: none;
-}
-.form-input:focus {
-    border-color: var(--ink);
-}
-.btn-submit {
-    background: var(--ink);
-    color: var(--cream);
-    border: none;
-    padding: 16px;
-    cursor: pointer;
-    transition: background 0.3s;
-    margin-top: 16px;
-}
-.btn-submit:hover {
-    background: var(--deep-maroon);
-}
+
 @media (max-width: 800px) {
     .rail-header {
         flex-direction: column;
@@ -871,9 +818,7 @@ h1, h2, h3, h4, h5, .display-type {
     }
 
 
-    .rsvp-layout {
-        flex-direction: column;
-    }
+
     .artifact-layout {
         flex-direction: column;
         justify-content: center;
@@ -904,10 +849,7 @@ h1, h2, h3, h4, h5, .display-type {
         align-items: flex-start;
         gap: 16px;
     }
-    .rsvp-form {
-        max-width: 100%;
-        padding: 32px 24px;
-    }
+
     .static-section {
         padding: 80px 5vw;
     }
