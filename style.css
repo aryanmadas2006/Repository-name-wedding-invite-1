@@ -970,3 +970,22 @@ h1, h2, h3, h4, h5, .display-type {
 .rail-native .rail-track { transform: none !important; }
 .rail-native .rail-track-wrap { overflow: hidden !important; }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* WebKit fix: keep the image's intrinsic width out of card sizing */
+.product-card { min-width: 0; }
+.card-inner-border { min-width: 0; }
+.card-plate { min-width: 0; }
+.card-plate img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+@media (max-width: 1023px) {
+    .product-card {
+        width: clamp(280px, 84vw, 400px);
+        max-width: clamp(280px, 84vw, 400px);
+    }
+}
