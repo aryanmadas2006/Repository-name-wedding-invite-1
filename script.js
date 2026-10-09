@@ -10,12 +10,12 @@ const wedding = {
     story: "TWO STORIES.\nTWO FAMILIES.\nONE BEAUTIFUL BEGINNING.",
     storySub: "From the moments that brought them together\nto the day they begin their next chapter.",
     events: [
-        { id: "01", name: "ROKA", date: "10 DEC 2026", time: "10:00 AM", venue: "THE COURTYARD", desc: "The official beginning of our journey." },
-        { id: "02", name: "HALDI", date: "11 DEC 2026", time: "09:00 AM", venue: "THE GARDENS", desc: "A morning of color, joy and blessings." },
-        { id: "03", name: "MEHENDI", date: "11 DEC 2026", time: "03:00 PM", venue: "SUNSET TERRACE", desc: "Music, dancing and henna under the sky." },
-        { id: "04", name: "SANGEET", date: "11 DEC 2026", time: "08:00 PM", venue: "GRAND HALL", desc: "An evening of performances and celebration." },
-        { id: "05", name: "WEDDING", date: "12 DEC 2026", time: "07:00 PM", venue: "MAIN COURTYARD", desc: "An evening of vows, family and celebration." },
-        { id: "06", name: "RECEPTION", date: "13 DEC 2026", time: "08:00 PM", venue: "ROYAL BALLROOM", desc: "A grand finale to our wedding festivities." }
+        { id: "01", name: "ROKA", date: "10 DEC 2026", time: "10:00 AM", venue: "THE COURTYARD", mapUrl: "", desc: "The official beginning of our journey." },
+        { id: "02", name: "HALDI", date: "11 DEC 2026", time: "09:00 AM", venue: "THE GARDENS", mapUrl: "", desc: "A morning of color, joy and blessings." },
+        { id: "03", name: "MEHENDI", date: "11 DEC 2026", time: "03:00 PM", venue: "SUNSET TERRACE", mapUrl: "", desc: "Music, dancing and henna under the sky." },
+        { id: "04", name: "SANGEET", date: "11 DEC 2026", time: "08:00 PM", venue: "GRAND HALL", mapUrl: "", desc: "An evening of performances and celebration." },
+        { id: "05", name: "WEDDING", date: "12 DEC 2026", time: "07:00 PM", venue: "MAIN COURTYARD", mapUrl: "", desc: "An evening of vows, family and celebration." },
+        { id: "06", name: "RECEPTION", date: "13 DEC 2026", time: "08:00 PM", venue: "ROYAL BALLROOM", mapUrl: "", desc: "A grand finale to our wedding festivities." }
     ],
     details: [
         { label: "DATE", value: "12 DECEMBER 2026" },
@@ -79,7 +79,7 @@ function populateDOM() {
                             <span class="mono meta-text">${ev.date} &bull; ${ev.time}</span>
                         </div>
                         <div class="card-meta">
-                            <span class="mono meta-text">${ev.venue}</span>
+                            <a class="mono meta-text venue-link" href="${ev.mapUrl || 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(ev.venue)}" target="_blank" rel="noopener noreferrer">${ev.venue}</a>
                         </div>
                         <p class="event-desc serif">${ev.desc}</p>
                     </div>
