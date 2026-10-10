@@ -211,38 +211,43 @@ function initEngine() {
     }
 
     function updateScroll() {
-        stages.forEach((stage, i) => {
-            if (!stage.el) return;
+        const reads = stages.map(stage => {
+            if (!stage.el) return null;
             const rect = stage.el.getBoundingClientRect();
+            stage.rect = rect; // Cache for renderCanvases
             const maxScroll = rect.height - windowH;
             let progress = maxScroll > 0 ? -rect.top / maxScroll : 0;
-            progress = Math.max(0, Math.min(1, progress));
-            if (stage.lastP === progress) return;
+            return Math.max(0, Math.min(1, progress));
+        });
+
+        stages.forEach((stage, i) => {
+            const progress = reads[i];
+            if (progress === null || stage.lastP === progress) return;
             stage.lastP = progress;
             
             if (i === 0) {
                 const y = progress * -90;
                 const scale = 1 - (progress * 0.26);
                 const alpha = 1 - progress * 1.5;
-                document.documentElement.style.setProperty('--hero-type-y', `${y}px`);
-                document.documentElement.style.setProperty('--hero-type-scale', scale);
-                document.documentElement.style.setProperty('--hero-type-alpha', Math.max(0, alpha));
+                stage.el.style.setProperty('--hero-type-y', `${y}px`);
+                stage.el.style.setProperty('--hero-type-scale', scale);
+                stage.el.style.setProperty('--hero-type-alpha', Math.max(0, alpha));
             } else if (i === 1) {
-                document.documentElement.style.setProperty('--manifesto-wipe', `${progress * 100}%`);
-                document.documentElement.style.setProperty('--manifesto-scale', 1 + progress * 0.05);
+                stage.el.style.setProperty('--manifesto-wipe', `${progress * 100}%`);
+                stage.el.style.setProperty('--manifesto-scale', 1 + progress * 0.05);
             } else if (i === 2) {
-                document.documentElement.style.setProperty('--rail-progress', progress);
+                stage.el.style.setProperty('--rail-progress', progress);
                 if (railWrap) {
                     railWrap.scrollLeft = (mqMobile.matches && useScrollRail) ? progress * trackOverflow : 0;
                 }
             } else if (i === 3) {
-                document.documentElement.style.setProperty('--packet-alpha', Math.min(1, progress * 4));
-                document.documentElement.style.setProperty('--packet-enter', `${38 - Math.min(1, progress * 4) * 38}px`);
-                document.documentElement.style.setProperty('--packet-scale', 0.78 + Math.min(1, progress * 2) * 0.22);
-                document.documentElement.style.setProperty('--packet-copy-x', `${progress * -20}px`);
+                stage.el.style.setProperty('--packet-alpha', Math.min(1, progress * 4));
+                stage.el.style.setProperty('--packet-enter', `${38 - Math.min(1, progress * 4) * 38}px`);
+                stage.el.style.setProperty('--packet-scale', 0.78 + Math.min(1, progress * 2) * 0.22);
+                stage.el.style.setProperty('--packet-copy-x', `${progress * -20}px`);
                 
                 const cut = Math.max(0, (progress - 0.8) * 5);
-                document.documentElement.style.setProperty('--packet-cut', cut);
+                stage.el.style.setProperty('--packet-cut', cut);
                 
                 const phaseCount = 4;
                 let index = Math.floor(progress * phaseCount);
@@ -253,21 +258,26 @@ function initEngine() {
                     updateArtifactPhase(index);
                 }
             } else if (i === 4) {
-                document.documentElement.style.setProperty('--season-y', `${-4 + progress * 8}%`);
-                document.documentElement.style.setProperty('--season-scale', 1.10 - progress * 0.045);
+                stage.el.style.setProperty('--season-y', `${-4 + progress * 8}%`);
+                stage.el.style.setProperty('--season-scale', 1.10 - progress * 0.045);
                 
                 const chapterIndex = Math.floor(progress * 3);
                 const finalIndex = Math.min(2, Math.max(0, chapterIndex));
                 
-                document.querySelectorAll('.chapter').forEach((ch, idx) => {
-                    ch.style.opacity = idx === finalIndex ? 1 : 0.3;
-                });
+                if (stage.lastChapterIndex !== finalIndex) {
+                    stage.lastChapterIndex = finalIndex;
+                    document.querySelectorAll('.chapter').forEach((ch, idx) => {
+                        ch.style.opacity = idx === finalIndex ? 1 : 0.3;
+                    });
+                }
             }
         });
         ticking = false;
     }
 
+    let lastScrollTime = 0;
     window.addEventListener('scroll', () => {
+        lastScrollTime = performance.now();
         if (!ticking) {
             window.requestAnimationFrame(updateScroll);
             ticking = true;
@@ -313,6 +323,10 @@ function initEngine() {
         
         const isMobile = window.matchMedia('(max-width: 1023px)').matches;
         if (isMobile) {
+            if (performance.now() - lastScrollTime < 120) {
+                requestAnimationFrame(renderCanvases);
+                return;
+            }
             if (timestamp - lastRender < 30) {
                 requestAnimationFrame(renderCanvases);
                 return;
@@ -323,8 +337,8 @@ function initEngine() {
         time += 0.01;
         
         const canvasHero = document.getElementById('canvas-hero');
-        if (canvasHero && canvasHero.cssW && canvasHero.cssH) {
-            const rect = stages[0].el.getBoundingClientRect();
+        if (canvasHero && canvasHero.cssW && canvasHero.cssH && stages[0].rect) {
+            const rect = stages[0].rect;
             if (rect.bottom > 0 && rect.top < window.innerHeight) {
                 const ctx = canvasHero.getContext('2d');
                 const w = canvasHero.cssW;
@@ -364,8 +378,8 @@ function initEngine() {
         }
         
         const canvasContour = document.getElementById('canvas-contour');
-        if (canvasContour && canvasContour.cssW && canvasContour.cssH) {
-            const rect = stages[4].el.getBoundingClientRect();
+        if (canvasContour && canvasContour.cssW && canvasContour.cssH && stages[4].rect) {
+            const rect = stages[4].rect;
             if (rect.bottom > 0 && rect.top < window.innerHeight) {
                 const ctx = canvasContour.getContext('2d');
                 const w = canvasContour.cssW;

@@ -1047,3 +1047,24 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .static-section:not(.countdown-section-new) {
     background-image: var(--paper-grain);
 }
+
+@media (max-width: 1023px) {
+    /* Optimize heavy effects on moving elements */
+    .cd-card-inner {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background-color: rgba(23, 21, 18, 0.96) !important;
+    }
+    .cd-card {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+    }
+    .hero-portrait {
+        box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
+    }
+    .hero-lockup, 
+    .manifesto-top, 
+    .packet, 
+    .packet-perforation {
+        will-change: auto !important;
+    }
+}
