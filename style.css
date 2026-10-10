@@ -1032,3 +1032,36 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
         will-change: auto !important;
     }
 }
+
+/* Wedding Details Refinements */
+.table-section .table-dots { 
+    display: none; 
+}
+.table-section::before, 
+.faq-section::before { 
+    display: none !important; 
+}
+
+.table-section .table-row {
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(23, 21, 18, 0.08);
+}
+.table-section .table-row:last-child { 
+    border-bottom: none; 
+}
+.table-section .table-row .mono:first-child {
+    color: var(--muted);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    flex-shrink: 0;
+}
+.table-section .table-row .value {
+    text-align: right;
+    color: var(--ink);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    line-height: 1.5;
+}
