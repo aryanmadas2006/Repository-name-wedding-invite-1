@@ -1,6 +1,3 @@
-if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-window.scrollTo(0, 0);
-
 // Global Wedding Configuration
 const wedding = {
     bride: "ANANYA",
@@ -541,19 +538,6 @@ function initEngine() {
 
 
     onResize();
-    window.scrollTo(0, 0);
-    
-    window.addEventListener('load', () => {
-        window.scrollTo(0, 0);
-        updateScroll();
-    });
-    window.addEventListener('pageshow', (e) => { 
-        if (e.persisted) {
-            window.scrollTo(0, 0);
-            updateScroll();
-        }
-    });
-
     resizeCanvases();
     drawPlates();
     updateScroll();
