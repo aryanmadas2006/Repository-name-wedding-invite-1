@@ -1,26 +1,16 @@
 const fs = require('fs');
-let css = fs.readFileSync('style.css', 'utf8');
 
-// replace the old .season-head rule entirely
-css = css.replace(/\.season-head\s*\{[^}]*\}/g, '');
+let scriptContent = fs.readFileSync('script.js', 'utf8');
+scriptContent = scriptContent.replace(/document\.querySelectorAll\('\.hero-monogram'\)\.forEach\([^
+]+
+?/, '');
+fs.writeFileSync('script.js', scriptContent);
 
-// remove the block I just appended with write_to_file
-css = css.replace(/\/\* USER REQUESTED ONE-LINE SEASON HEAD[^\/]*\//g, '');
-css = css.replace(/\.season-head\s*\[data-split\]\s*span\s*\{[^}]*\}/g, '');
-
-const appendCSS = `
-/* USER REQUESTED ONE-LINE SEASON HEAD (THE WEDDING DAY) */
-.season-head {
-    white-space: nowrap;
-    letter-spacing: 0.06em;
-    line-height: 1.1;
-    font-size: min(clamp(26px, 8vw, 96px), calc(88vw / (15 * 0.74)));
-    margin-bottom: clamp(24px, 4vw, 40px);
+let styleContent = fs.readFileSync('style.css', 'utf8');
+let start = styleContent.indexOf('/* ===== HERO THEME: BRIGHT IVORY');
+let end = styleContent.indexOf('/* ===== END HERO THEME ===== */');
+if (start !== -1 && end !== -1) {
+    styleContent = styleContent.substring(0, start) + styleContent.substring(end + '/* ===== END HERO THEME ===== */'.length);
+    fs.writeFileSync('style.css', styleContent);
 }
-.season-head [data-split] span {
-    display: inline-block;
-}
-`;
-fs.writeFileSync('style.css', css + appendCSS);
-console.log('Cleaned up style.css');
-
+console.log('Done cleanup');

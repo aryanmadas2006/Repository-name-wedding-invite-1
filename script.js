@@ -144,7 +144,7 @@ function initEngine() {
     });
 
     const stages = [
-        { el: document.querySelector('.stage-hero'), h: 280 },
+        { el: document.querySelector('.stage-hero'), h: window.innerWidth <= 600 ? 190 : 220 },
         { el: document.querySelector('.stage-manifesto'), h: 260 },
         { el: document.querySelector('.stage-rail'), h: 340 },
         { el: document.querySelector('.stage-artifact'), h: 420 },
@@ -157,8 +157,14 @@ function initEngine() {
 
     let windowH = window.innerHeight;
     let windowW = window.innerWidth;
+        
+        const stageHeroEl = stages[0]?.el || document.querySelector('.stage-hero');
+        if (stageHeroEl) {
+            heroRingAlpha = parseFloat(getComputedStyle(stageHeroEl).getPropertyValue('--hero-ring-alpha')) || 0.06;
+        }
     let trackOverflow = 0;
     let ticking = false;
+    let heroRingAlpha = 0.06;
     const cardTrack = document.getElementById('card-track');
     const railWrap = document.querySelector('.rail-track-wrap');
     const mqMobile = window.matchMedia('(max-width: 1023px)');
@@ -173,7 +179,7 @@ function initEngine() {
         
         const isPhone = windowW <= 800;
         if (stages[0]) {
-            stages[0].h = isPhone ? 190 : 280;
+            stages[0].h = window.innerWidth <= 600 ? 190 : 220;
             if (stages[0].el) stages[0].el.style.height = stages[0].h + 'svh';
         }
         if (stages[1]) {
@@ -252,7 +258,7 @@ function initEngine() {
             if (i === 0) {
                 const y = progress * -90;
                 const scale = 1 - (progress * 0.26);
-                const alpha = 1 - progress * 1.5;
+                const alpha = 1 - progress;
                 stage.el.style.setProperty('--hero-type-y', `${y}px`);
                 stage.el.style.setProperty('--hero-type-scale', scale);
                 stage.el.style.setProperty('--hero-type-alpha', Math.max(0, alpha));
@@ -369,7 +375,7 @@ function initEngine() {
                 const h = canvasHero.cssH;
                 ctx.clearRect(0, 0, w, h);
                 
-                ctx.strokeStyle = 'rgba(184,154,90,0.06)';
+                ctx.strokeStyle = `rgba(184,154,90,${heroRingAlpha})`;
                 ctx.lineWidth = 1;
                 const cx = w / 2;
                 const cy = h / 2;

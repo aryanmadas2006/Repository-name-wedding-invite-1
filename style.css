@@ -1345,14 +1345,7 @@ a:focus-visible {
     margin-top: clamp(20px, 3vh, 32px);
     color: var(--cream);
 }
-.hero-line-date::before {
-    content: "";
-    display: block;
-    width: 48px;
-    height: 1px;
-    margin: 0 auto 20px;
-    background: var(--antique-gold);
-}
+
 .hero-line-date::after {
     content: "";
     display: block;
@@ -1501,17 +1494,7 @@ a:focus-visible {
 }
 
 /* SINGLE LINE SEASON HEAD */
-.season-head {
-    position: relative;
-    font-family: var(--font-display);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    line-height: 1.1;
-    white-space: nowrap;
-    font-size: min(clamp(28px, 7.9vw, 76px), calc(90vw / (15 * 0.78)));
-    margin-bottom: clamp(20px, 3.5vw, 36px);
-}
+
 .season-head .word-wrap, .season-head .word {
     display: inline-block;
     white-space: nowrap;
@@ -1548,3 +1531,52 @@ a:focus-visible {
     display: block;
 }
 @media (max-height: 700px) { .season-photo { display: none; } }
+
+
+
+
+/* USER REQUESTED ONE-LINE SEASON HEAD (THE WEDDING DAY) */
+.season-head {
+    white-space: nowrap;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+    font-size: min(clamp(26px, 8vw, 96px), calc(88vw / (15 * 0.74)));
+    margin-bottom: clamp(24px, 4vw, 40px);
+}
+.season-head [data-split] span {
+    display: inline-block;
+}
+/* ===== HERO DUST (delete this block to remove) ===== */
+.hero-dust {
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: calc(100% + 240px);
+    pointer-events: none;
+    z-index: 2;
+    background-image:
+        radial-gradient(circle at 30px 40px,  rgba(184,154,90,0.55) 1.2px, transparent 2px),
+        radial-gradient(circle at 150px 160px, rgba(184,154,90,0.4) 1px, transparent 1.8px),
+        radial-gradient(circle at 210px 90px,  rgba(184,154,90,0.3) 1px, transparent 1.6px);
+    background-size: 240px 240px;
+    opacity: 0.8;
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 48%, #000 0%, transparent 100%);
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 48%, #000 0%, transparent 100%);
+    animation: heroDust 26s linear infinite;
+}
+@keyframes heroDust { from { transform: translateY(0); } to { transform: translateY(-240px); } }
+@media (prefers-reduced-motion: reduce) { .hero-dust { animation: none; } }
+@media (max-width: 600px) { .hero-dust { opacity: 0.4; } }
+/* ===== END HERO DUST ===== */
+/* ===== DIAMOND ORNAMENT (delete this block to remove) ===== */
+.hero-line-date::before {
+    content: "";
+    display: block;
+    width: 92px;
+    height: 9px;
+    margin: 0 auto 20px;
+    background:
+        linear-gradient(90deg, transparent, var(--antique-gold)) left center / 34px 1px no-repeat,
+        linear-gradient(270deg, transparent, var(--antique-gold)) right center / 34px 1px no-repeat,
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M5 0l5 5-5 5-5-5z' fill='%23B89A5A'/%3E%3C/svg%3E") center / 9px 9px no-repeat;
+}
+/* ===== END DIAMOND ORNAMENT ===== */
