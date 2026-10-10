@@ -287,6 +287,7 @@ function initEngine() {
                 
                 const chapterIndex = Math.floor(progress * 3);
                 const finalIndex = Math.min(2, Math.max(0, chapterIndex));
+                    if (stage.el.dataset.chapter !== String(finalIndex)) stage.el.dataset.chapter = finalIndex;
                 
                 if (stage.lastChapterIndex !== finalIndex) {
                     stage.lastChapterIndex = finalIndex;
