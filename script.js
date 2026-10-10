@@ -158,13 +158,13 @@ function initEngine() {
     let windowH = window.innerHeight;
     let windowW = window.innerWidth;
         
+        let heroRingAlpha = 0.06;
         const stageHeroEl = stages[0]?.el || document.querySelector('.stage-hero');
         if (stageHeroEl) {
             heroRingAlpha = parseFloat(getComputedStyle(stageHeroEl).getPropertyValue('--hero-ring-alpha')) || 0.06;
         }
     let trackOverflow = 0;
     let ticking = false;
-    let heroRingAlpha = 0.06;
     const cardTrack = document.getElementById('card-track');
     const railWrap = document.querySelector('.rail-track-wrap');
     const mqMobile = window.matchMedia('(max-width: 1023px)');

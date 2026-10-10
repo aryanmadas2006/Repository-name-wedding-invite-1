@@ -46,9 +46,7 @@
     padding: 0;
 }
 
-body {
-    overflow-x: clip;
-}
+
 
 /* Typography Base */
 h1, h2, h3, h4, h5, .display-type {
