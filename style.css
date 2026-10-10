@@ -1518,49 +1518,33 @@ a:focus-visible {
 }
 
 
-/* DECORATIVE EMBLEM IN THE WEDDING DAY STAGE */
-.season-emblem {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: clamp(48px, 9svh, 110px);
-    width: min(46vw, 210px);
-    height: min(34svh, 290px);
-    z-index: 5;
-    pointer-events: none;
-    display: grid;
-    place-items: center;
+/* DECORATIVE PHOTO IN THE WEDDING DAY STAGE */
+.stage-season .season-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-self: stretch;
+    height: 100%;
+    padding-top: clamp(40px, 8svh, 72px);
+}
+.season-photo {
+    position: relative;
+    flex: 1 1 0;
+    min-height: 0;
+    max-height: clamp(180px, 42svh, 380px);
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 0 clamp(20px, 3.5vw, 36px);
     border: 1px solid var(--antique-gold);
-    border-bottom: none;
-    border-radius: 999px 999px 0 0;
+    background: var(--off-white);
 }
-.season-emblem::before {
-    content: "";
+.season-photo img {
     position: absolute;
-    inset: 10px 10px 0;
-    border: 1px solid var(--antique-gold);
-    border-bottom: none;
-    border-radius: 999px 999px 0 0;
-    opacity: 0.4;
+    inset: 8px;
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
+    object-fit: cover;
+    object-position: center 25%;
+    display: block;
 }
-.season-emblem span {
-    grid-area: 1 / 1;
-    font-family: var(--font-serif);
-    font-weight: 500;
-    font-size: clamp(52px, 12vw, 92px);
-    letter-spacing: 0.04em;
-    line-height: 1;
-    color: var(--antique-gold);
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.6s cubic-bezier(.65,0,.35,1), transform 0.6s cubic-bezier(.22,1,.36,1);
-}
-.stage-season:not([data-chapter]) .season-emblem span:nth-child(1),
-.stage-season[data-chapter="0"] .season-emblem span:nth-child(1),
-.stage-season[data-chapter="1"] .season-emblem span:nth-child(2),
-.stage-season[data-chapter="2"] .season-emblem span:nth-child(3) {
-    opacity: 1;
-    transform: translateY(0);
-}
-@media (max-height: 600px) { .season-emblem { display: none; } }
-@media (prefers-reduced-motion: reduce) { .season-emblem span { transition: none; } }
+@media (max-height: 700px) { .season-photo { display: none; } }
