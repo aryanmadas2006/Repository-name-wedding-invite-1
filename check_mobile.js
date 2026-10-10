@@ -1,84 +1,39 @@
 const puppeteer = require('puppeteer');
 
 (async () => {
-    const browser = await puppeteer.launch({ headless: 'new' });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     
-    const sizes = [
-        {width: 360, height: 640},
-        {width: 375, height: 667},
-        {width: 390, height: 844},
-        {width: 430, height: 932},
-        {width: 768, height: 1024}
-    ];
+    // Using file protocol to load local index.html
+    const path = require('path');
+    const filePath = 'file://' + path.join(__dirname, 'index.html').replace(/\\/g, '/');
+    
+    await page.goto(filePath, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    
+    // Force fonts to load so measurements are accurate
+    await page.evaluate(async () => {
+        await document.fonts.ready;
+    });
 
-    for (const size of sizes) {
-        await page.setViewport(size);
-        await page.goto(`file://${__dirname}/index.html`, { waitUntil: 'domcontentloaded', timeout: 10000 });
+    const widths = [320, 360, 390, 430, 768, 1280, 1440];
+    
+    for (let w of widths) {
+        await page.setViewport({ width: w, height: 1000 });
+        await new Promise(r => setTimeout(r, 200));
         
-        console.log(`\nTesting size: ${size.width}x${size.height}`);
-        
-        // Check horizontal overflow
-        const overflow = await page.evaluate(() => {
+        const data = await page.evaluate(() => {
+            const el = document.querySelector('.season-head');
+            if (!el) return null;
             return {
-                scrollWidth: document.documentElement.scrollWidth,
-                innerWidth: window.innerWidth,
-                overflowing: document.documentElement.scrollWidth > window.innerWidth
+                w: el.getBoundingClientRect().width,
+                sw: el.scrollWidth,
+                cw: el.clientWidth,
+                vw: window.innerWidth
             };
         });
         
-        console.log(`Overflow: ${overflow.overflowing ? 'YES' : 'NO'} (scrollWidth: ${overflow.scrollWidth}, innerWidth: ${overflow.innerWidth})`);
-        
-        if (overflow.overflowing) {
-            const overflowingElements = await page.evaluate(() => {
-                const elements = document.querySelectorAll('*');
-                const results = [];
-                for (let el of elements) {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.right > window.innerWidth || rect.left < 0) {
-                        results.push(`${el.tagName}.${el.className} - right: ${rect.right}, left: ${rect.left}`);
-                    }
-                }
-                return results;
-            });
-            console.log("Overflowing elements:");
-            console.log(overflowingElements.slice(0, 10).join('\n'));
-        }
-
-        // Tap targets
-        const tapTargets = await page.evaluate(() => {
-            const targets = document.querySelectorAll('a, button, summary, .faq-row');
-            const results = [];
-            for (let el of targets) {
-                const rect = el.getBoundingClientRect();
-                if (rect.height > 0 && rect.height < 44) {
-                    results.push(`${el.tagName}.${el.className} - height: ${rect.height}`);
-                }
-            }
-            return results;
-        });
-        
-        if (tapTargets.length > 0) {
-            console.log("Small tap targets:");
-            console.log([...new Set(tapTargets)].join('\n'));
-        }
-
-        // Check clipping
-        const clipping = await page.evaluate(() => {
-            const targets = document.querySelectorAll('.hero-name, .countdown-card-new, .table-row, .faq-content, .site-footer');
-            const results = [];
-            for (let el of targets) {
-                const rect = el.getBoundingClientRect();
-                if (el.scrollWidth > el.clientWidth || el.scrollHeight > el.clientHeight) {
-                    results.push(`${el.tagName}.${el.className} is clipping content.`);
-                }
-            }
-            return results;
-        });
-
-        if (clipping.length > 0) {
-            console.log("Clipping elements:");
-            console.log([...new Set(clipping)].join('\n'));
+        if (data) {
+            console.log(`[Viewport ${w}px] Heading Width: ${data.w.toFixed(1)}px | scrollWidth: ${data.sw} | clientWidth: ${data.cw} | Fits: ${data.w <= data.vw}`);
         }
     }
     

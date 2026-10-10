@@ -170,6 +170,16 @@ function initEngine() {
         const widthChanged = window.innerWidth !== windowW;
         if (widthChanged) windowH = window.innerHeight;
         windowW = window.innerWidth;
+        
+        const isPhone = windowW <= 800;
+        if (stages[0]) {
+            stages[0].h = isPhone ? 190 : 280;
+            if (stages[0].el) stages[0].el.style.height = stages[0].h + 'svh';
+        }
+        if (stages[1]) {
+            stages[1].h = isPhone ? 180 : 260;
+            if (stages[1].el) stages[1].el.style.height = stages[1].h + 'svh';
+        }
         document.documentElement.classList.toggle('rail-native', isMobile && useScrollRail);
         if (cardTrack) {
             const cards = cardTrack.children;

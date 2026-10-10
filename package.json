@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/aryanspam2006-prog/wedding-invite-1#readme",
   "dependencies": {
+    "express": "^5.3.0",
     "playwright": "^1.63.0",
     "puppeteer": "^25.12.0"
   },
