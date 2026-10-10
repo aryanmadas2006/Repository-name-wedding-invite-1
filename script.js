@@ -18,20 +18,18 @@ const wedding = {
         { id: "06", name: "RECEPTION", date: "13 DEC 2026", time: "08:00 PM", venue: "ROYAL BALLROOM", mapUrl: "", desc: "A grand finale to our wedding festivities." }
     ],
     details: [
-        { label: "DATE", value: "12 DECEMBER 2026" },
+        { label: "DATE", value: "SATURDAY, 12 DECEMBER 2026" },
         { label: "TIME", value: "07:00 PM" },
         { label: "VENUE", value: "THE ROYAL PALACE" },
         { label: "LOCATION", value: "JAIPUR, INDIA" },
-        { label: "DRESS CODE", value: "INDIAN FORMAL" },
-        { label: "ACCOMMODATION", value: "DETAILS SOON" }
+        { label: "DRESS CODE", value: "INDIAN FORMAL" }
     ],
     faqs: [
-        { q: "WHEN SHOULD WE ARRIVE?", a: "Please arrive by 6:30 PM for a 7:00 PM ceremony start." },
-        { q: "IS THERE A DRESS CODE?", a: "We request Indian Formal or Black Tie attire." },
+        { q: "WHEN SHOULD WE ARRIVE?", a: "Guests are warmly requested to arrive by 6:30 PM on Saturday, 12 December. The ceremony will begin at 7:00 PM." },
+        { q: "IS THERE A DRESS CODE?", a: "We request Indian formal or black-tie attire for the evening." },
         { q: "IS PARKING AVAILABLE?", a: "Yes, valet parking will be available at the venue." },
-        { q: "ARE CHILDREN WELCOME?", a: "While we love your little ones, this will be an adults-only celebration." },
-        { q: "WHERE CAN WE STAY?", a: "We have blocked rooms at the venue. Please see the accommodation details." },
-        { q: "WHO SHOULD WE CONTACT?", a: "For any queries, please reach out to our planning team at details@wedding.com." }
+        { q: "ARE CHILDREN WELCOME?", a: "While we adore your little ones, we have planned this celebration as an adults-only evening." },
+        { q: "WHO SHOULD WE CONTACT?", a: "For any questions, please write to our planning team at details@wedding.com." }
     ]
 };
 
@@ -190,6 +188,7 @@ function initEngine() {
         }
         stages.forEach(s => { s.lastP = undefined; });
         updateScroll();
+        if (widthChanged) drawPlates();
     }
     window.addEventListener('resize', onResize);
     window.addEventListener('orientationchange', () => setTimeout(onResize, 100));
@@ -465,9 +464,12 @@ function initEngine() {
             ctx.fillRect(0, 0, w, h);
             
             ctx.lineWidth = 1;
-            ctx.translate(w/2, h/2 + 20); // shift down for arch layout
             
             if (c.classList.contains('artifact-plate')) {
+                const s = Math.min(1, h / 200);
+                const offsetY = h > 200 ? 20 : 0;
+                ctx.translate(w / 2, h / 2 + offsetY);
+                ctx.scale(s, s);
                 ctx.strokeStyle = 'rgba(184,154,90,0.4)';
                 for (let i = 0; i < 16; i++) {
                     ctx.rotate((Math.PI * 2) / 16);
@@ -480,6 +482,7 @@ function initEngine() {
                 ctx.fillStyle = '#B89A5A';
                 ctx.fill();
             } else {
+                ctx.translate(w/2, h/2 + 20); // shift down for arch layout
                 ctx.strokeStyle = 'rgba(184,154,90,0.6)';
                 const petals = 8;
                 for(let i = 0; i < petals; i++) {
