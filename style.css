@@ -998,3 +998,14 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .static-section:not(.countdown-section-new) {
     background-image: var(--paper-grain);
 }
+
+@media (max-width: 800px) {
+  .artifact-copy { transform: none; gap: 24px; }
+  .artifact-layout { gap: 28px; }
+  .invite-copy h3 { font-size: clamp(30px, 8.6vw, 42px); }
+  .packet { aspect-ratio: auto; }
+  .packet-header { padding: 26px 20px; }
+  .packet-title { font-size: clamp(34px, 9.5vw, 48px); margin-top: 10px; }
+  .packet-plate { min-height: 56px; }
+  .data-row { padding: 13px 20px; }
+}
