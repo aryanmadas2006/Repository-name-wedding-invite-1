@@ -112,7 +112,6 @@ function populateDOM() {
 
 // 2. Initialize Engine
 function initEngine() {
-    let lastScrollTime = 0;
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -146,17 +145,16 @@ function initEngine() {
         observer.observe(el);
     });
 
-    const mqMobile = window.matchMedia('(max-width: 1023px)');
     const stages = [
-        { el: document.querySelector('.stage-hero'), h: 280, mh: 200 },
+        { el: document.querySelector('.stage-hero'), h: 280 },
         { el: document.querySelector('.stage-manifesto'), h: 260 },
         { el: document.querySelector('.stage-rail'), h: 340 },
-        { el: document.querySelector('.stage-artifact'), h: 420, mh: 260 },
+        { el: document.querySelector('.stage-artifact'), h: 420 },
         { el: document.querySelector('.stage-season'), h: 300 }
     ];
 
-    stages.forEach((stage, i) => {
-        if (i !== 2 && stage.el) stage.el.style.height = ((mqMobile.matches && stage.mh) ? stage.mh : stage.h) + 'svh';
+    stages.forEach(stage => {
+        if (stage.el) stage.el.style.height = `${stage.h}svh`;
     });
 
     let windowH = window.innerHeight;
@@ -165,7 +163,7 @@ function initEngine() {
     let ticking = false;
     const cardTrack = document.getElementById('card-track');
     const railWrap = document.querySelector('.rail-track-wrap');
-    
+    const mqMobile = window.matchMedia('(max-width: 1023px)');
     // Add ?rail=transform to the URL to compare with the old transform method.
     const useScrollRail = !/[?&]rail=transform/.test(location.search);
 
@@ -175,13 +173,6 @@ function initEngine() {
         if (widthChanged) windowH = window.innerHeight;
         windowW = window.innerWidth;
         document.documentElement.classList.toggle('rail-native', isMobile && useScrollRail);
-        
-        stages.forEach((stage, i) => {
-            if (i !== 2 && stage.el) {
-                stage.el.style.height = ((isMobile && stage.mh) ? stage.mh : stage.h) + 'svh';
-            }
-        });
-
         if (cardTrack) {
             const cards = cardTrack.children;
             if (cards.length > 0) {
@@ -233,25 +224,25 @@ function initEngine() {
                 const y = progress * -90;
                 const scale = 1 - (progress * 0.26);
                 const alpha = 1 - progress * 1.5;
-                stage.el.style.setProperty('--hero-type-y', `${y}px`);
-                stage.el.style.setProperty('--hero-type-scale', scale);
-                stage.el.style.setProperty('--hero-type-alpha', Math.max(0, alpha));
+                document.documentElement.style.setProperty('--hero-type-y', `${y}px`);
+                document.documentElement.style.setProperty('--hero-type-scale', scale);
+                document.documentElement.style.setProperty('--hero-type-alpha', Math.max(0, alpha));
             } else if (i === 1) {
-                stage.el.style.setProperty('--manifesto-wipe', `${progress * 100}%`);
-                stage.el.style.setProperty('--manifesto-scale', 1 + progress * 0.05);
+                document.documentElement.style.setProperty('--manifesto-wipe', `${progress * 100}%`);
+                document.documentElement.style.setProperty('--manifesto-scale', 1 + progress * 0.05);
             } else if (i === 2) {
-                stage.el.style.setProperty('--rail-progress', progress);
+                document.documentElement.style.setProperty('--rail-progress', progress);
                 if (railWrap) {
                     railWrap.scrollLeft = (mqMobile.matches && useScrollRail) ? progress * trackOverflow : 0;
                 }
             } else if (i === 3) {
-                stage.el.style.setProperty('--packet-alpha', Math.min(1, progress * 4));
-                stage.el.style.setProperty('--packet-enter', `${38 - Math.min(1, progress * 4) * 38}px`);
-                stage.el.style.setProperty('--packet-scale', 0.78 + Math.min(1, progress * 2) * 0.22);
-                stage.el.style.setProperty('--packet-copy-x', `${progress * -20}px`);
+                document.documentElement.style.setProperty('--packet-alpha', Math.min(1, progress * 4));
+                document.documentElement.style.setProperty('--packet-enter', `${38 - Math.min(1, progress * 4) * 38}px`);
+                document.documentElement.style.setProperty('--packet-scale', 0.78 + Math.min(1, progress * 2) * 0.22);
+                document.documentElement.style.setProperty('--packet-copy-x', `${progress * -20}px`);
                 
                 const cut = Math.max(0, (progress - 0.8) * 5);
-                stage.el.style.setProperty('--packet-cut', cut);
+                document.documentElement.style.setProperty('--packet-cut', cut);
                 
                 const phaseCount = 4;
                 let index = Math.floor(progress * phaseCount);
@@ -262,8 +253,8 @@ function initEngine() {
                     updateArtifactPhase(index);
                 }
             } else if (i === 4) {
-                stage.el.style.setProperty('--season-y', `${-4 + progress * 8}%`);
-                stage.el.style.setProperty('--season-scale', 1.10 - progress * 0.045);
+                document.documentElement.style.setProperty('--season-y', `${-4 + progress * 8}%`);
+                document.documentElement.style.setProperty('--season-scale', 1.10 - progress * 0.045);
                 
                 const chapterIndex = Math.floor(progress * 3);
                 const finalIndex = Math.min(2, Math.max(0, chapterIndex));
@@ -277,7 +268,6 @@ function initEngine() {
     }
 
     window.addEventListener('scroll', () => {
-        lastScrollTime = performance.now();
         if (!ticking) {
             window.requestAnimationFrame(updateScroll);
             ticking = true;
@@ -323,7 +313,7 @@ function initEngine() {
         
         const isMobile = window.matchMedia('(max-width: 1023px)').matches;
         if (isMobile) {
-            if (performance.now() - lastScrollTime < 120 || timestamp - lastRender < 30) {
+            if (timestamp - lastRender < 30) {
                 requestAnimationFrame(renderCanvases);
                 return;
             }

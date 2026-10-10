@@ -811,13 +811,16 @@ h1, h2, h3, h4, h5, .display-type {
 
 
 @media (max-width: 800px) {
+    .packet { aspect-ratio: auto; }
+    .packet-plate { min-height: 56px; }
+    .packet-header { padding: 26px 20px; }
+    .packet-title { font-size: clamp(34px, 9.5vw, 48px); }
+    
     .rail-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
     }
-
-
 
     .artifact-layout {
         flex-direction: column;
@@ -828,6 +831,7 @@ h1, h2, h3, h4, h5, .display-type {
         max-width: 100%;
         align-items: center;
         text-align: center;
+        transform: none;
     }
     .invite-copy {
         align-items: center;
@@ -838,20 +842,65 @@ h1, h2, h3, h4, h5, .display-type {
     }
     .packet-wrap {
         width: 100%;
-        max-width: clamp(240px, 60vw, 360px);
+        max-width: clamp(240px, 80vw, 360px);
     }
     .chapter-row {
         flex-direction: column;
         gap: 40px;
     }
-    .rail-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-    }
 
     .static-section {
-        padding: 80px 5vw;
+        padding: 64px 5vw;
+    }
+    .static-section h2 {
+        margin-bottom: 32px;
+    }
+    
+    /* Clipping and Wrapping Fixes */
+    .hero-name {
+        font-size: clamp(32px, 12vw, 140px);
+        word-break: break-word;
+    }
+    
+    .countdown-grid-new {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+    .cd-card {
+        min-width: 120px;
+    }
+    .cd-value {
+        font-size: clamp(32px, 8vw, 64px);
+    }
+    
+    .table-row {
+        flex-wrap: wrap;
+        padding: 16px 0;
+    }
+    .table-dots {
+        display: none;
+    }
+    .table-row .mono {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 4px;
+    }
+    .table-row .value {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .faq-row summary {
+        padding: 24px 0;
+        min-height: 44px;
+    }
+    
+    .site-footer {
+        padding: 80px 5vw calc(64px + env(safe-area-inset-bottom));
+    }
+    .footer-names {
+        font-size: clamp(24px, 8vw, 64px);
+        word-break: break-word;
     }
 }
 
@@ -997,15 +1046,4 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .stage-season .stage-inner,
 .static-section:not(.countdown-section-new) {
     background-image: var(--paper-grain);
-}
-
-@media (max-width: 800px) {
-  .artifact-copy { transform: none; gap: 24px; }
-  .artifact-layout { gap: 28px; }
-  .invite-copy h3 { font-size: clamp(30px, 8.6vw, 42px); }
-  .packet { aspect-ratio: auto; }
-  .packet-header { padding: 26px 20px; }
-  .packet-title { font-size: clamp(34px, 9.5vw, 48px); margin-top: 10px; }
-  .packet-plate { min-height: 56px; }
-  .data-row { padding: 13px 20px; }
 }
