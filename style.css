@@ -822,7 +822,7 @@ h1, h2, h3, h4, h5, .display-type {
     }
     
     .site-footer {
-        padding: 80px 5vw calc(64px + env(safe-area-inset-bottom));
+        
     }
     .footer-names {
         font-size: clamp(24px, 7vw, 64px);
@@ -833,18 +833,18 @@ h1, h2, h3, h4, h5, .display-type {
 .site-footer {
     background-color: var(--deep-maroon);
     color: var(--cream);
-    padding: 100px 5vw;
+    
 }
 .footer-grid {
-    display: flex;
-    justify-content: center;
-    text-align: center;
+    
+    
+    
 }
 .footer-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
+    
+    
+    
+    
 }
 .footer-names {
     font-size: clamp(24px, 6vw, 64px);
@@ -955,8 +955,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     transform: translate(2px, -2px);
 }
 
-.static-section + .static-section::before,
-.static-section + .site-footer::before {
+.static-section + .static-section::before {
     content: "";
     display: block;
     width: 72px;
@@ -1189,21 +1188,10 @@ a:focus-visible {
 
 .footer-names {
     position: relative;
-    margin-top: 24px;
-}
-.footer-names::before {
-    content: '';
-    position: absolute;
-    top: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 1px;
-    background: var(--antique-gold);
-    opacity: 0.3;
-}
+    }
 
-.static-section, .countdown-section-new, .site-footer {
+
+.static-section, .countdown-section-new {
     padding-top: max(40px, env(safe-area-inset-top));
     padding-bottom: max(40px, env(safe-area-inset-bottom));
 }
@@ -1507,3 +1495,14 @@ a:focus-visible {
     .season-head::before,
     .season-head::after { transition: none; transform: none; }
 }
+
+/* USER REQUESTED FOOTER POLISH */
+.static-section + .site-footer::before {
+    display: none;
+}
+.site-footer {
+    padding: clamp(56px, 8vw, 88px) 5vw calc(clamp(56px, 8vw, 88px) + env(safe-area-inset-bottom, 0px));
+    min-height: 0;
+}
+.footer-grid { display: flex; justify-content: center; align-items: center; text-align: center; }
+.footer-col { display: flex; flex-direction: column; align-items: center; gap: clamp(16px, 2.4vw, 24px); }
