@@ -1578,3 +1578,20 @@ a:focus-visible {
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M5 0l5 5-5 5-5-5z' fill='%23B89A5A'/%3E%3C/svg%3E") center / 9px 9px no-repeat;
 }
 /* ===== END DIAMOND ORNAMENT ===== */
+
+/* ===== HERO SCROLL CUE ===== */
+.hero-scroll {
+    display: block;
+    margin-top: 10px;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    padding-left: 0.4em;            /* optically centers the spaced letters */
+    color: var(--antique-gold);
+    text-align: center;
+    opacity: 0.9;
+}
+@media (prefers-reduced-motion: no-preference) {
+    .hero-scroll { animation: heroFade 1s ease-out 1.8s backwards; }
+}
+@media (max-height: 640px) { .hero-scroll { display: none; } }
+/* ===== END HERO SCROLL CUE ===== */
