@@ -1,7 +1,7 @@
 // Global Wedding Configuration
 const wedding = {
-    bride: "ANANYA",
-    groom: "ROHAN",
+    bride: "RASHMIKA",
+    groom: "VIJAY",
     date: "12 DECEMBER 2026",
     day: "SATURDAY",
     venue: "THE ROYAL PALACE",
