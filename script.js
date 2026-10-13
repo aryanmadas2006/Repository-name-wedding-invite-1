@@ -28,7 +28,6 @@ const wedding = {
         { q: "WHEN SHOULD WE ARRIVE?", a: "Guests are warmly requested to arrive by 6:30 PM on Saturday, 12 December. The ceremony will begin at 7:00 PM." },
         { q: "IS THERE A DRESS CODE?", a: "We request Indian formal or black-tie attire for the evening." },
         { q: "IS PARKING AVAILABLE?", a: "Yes, valet parking will be available at the venue." },
-        { q: "ARE CHILDREN WELCOME?", a: "While we adore your little ones, we have planned this celebration as an adults-only evening." },
         { q: "WHO SHOULD WE CONTACT?", a: "For any questions, please write to our planning team at details@wedding.com." }
     ]
 };
