@@ -54,12 +54,12 @@ function populateDOM() {
     const track = document.getElementById('card-track');
     if (track) {
         const imageMap = {
-            'ROKA': 'images/Roka%20gpt%20edited.png',
-            'HALDI': 'images/haldi%20gpt%20.png',
-            'MEHENDI': 'images/mehendi%20gpt.png',
-            'SANGEET': 'images/sangeet%20gpt.png',
-            'WEDDING': 'images/wedding%20gpt.png',
-            'RECEPTION': 'images/reception%20gpt.png'
+            'ROKA': 'images/roka.jpg',
+            'HALDI': 'images/haldi.jpg',
+            'MEHENDI': 'images/mehendi.jpg',
+            'SANGEET': 'images/sangeet.jpg',
+            'WEDDING': 'images/wedding.jpg',
+            'RECEPTION': 'images/reception.jpg'
         };
 
         track.innerHTML = wedding.events.map(ev => {
