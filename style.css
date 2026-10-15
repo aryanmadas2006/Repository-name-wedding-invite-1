@@ -1595,3 +1595,48 @@ a:focus-visible {
 }
 @media (max-height: 640px) { .hero-scroll { display: none; } }
 /* ===== END HERO SCROLL CUE ===== */
+
+/* MUSIC START */
+.music-toggle {
+    position: fixed;
+    bottom: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    right: 20px;
+    right: calc(20px + env(safe-area-inset-right, 0px));
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--deep-maroon);
+    border: 1px solid var(--antique-gold);
+    color: var(--antique-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.music-toggle:hover {
+    background-color: var(--muted-burgundy);
+}
+.music-toggle:focus-visible {
+    outline: 2px solid var(--antique-gold);
+    outline-offset: 2px;
+}
+.music-toggle:active {
+    transform: scale(0.95);
+}
+.music-toggle .music-icon {
+    display: block;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+.music-toggle:not(.is-muted) .music-slash {
+    display: none;
+}
+/* MUSIC END */

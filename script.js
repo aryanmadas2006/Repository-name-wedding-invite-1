@@ -585,3 +585,66 @@ setTimeout(() => {
     initEngine();
 }, 50);
 
+
+/* MUSIC START */
+(function() {
+    const music = document.getElementById('bg-music');
+    const toggleBtn = document.getElementById('music-toggle');
+    if (!music || !toggleBtn) return;
+
+    let wasPlayingBeforeHidden = false;
+
+    function updateState(playing) {
+        if (playing) {
+            toggleBtn.classList.remove('is-muted');
+            toggleBtn.setAttribute('aria-label', 'Pause music');
+            toggleBtn.setAttribute('title', 'Pause music');
+        } else {
+            toggleBtn.classList.add('is-muted');
+            toggleBtn.setAttribute('aria-label', 'Play music');
+            toggleBtn.setAttribute('title', 'Play music');
+        }
+    }
+
+    async function toggleMusic() {
+        if (music.paused) {
+            try {
+                await music.play();
+                updateState(true);
+            } catch (err) {
+                updateState(false);
+            }
+        } else {
+            music.pause();
+            updateState(false);
+        }
+    }
+
+    toggleBtn.addEventListener('click', toggleMusic);
+
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            wasPlayingBeforeHidden = !music.paused;
+            if (wasPlayingBeforeHidden) {
+                music.pause();
+                updateState(false);
+            }
+        } else {
+            if (wasPlayingBeforeHidden) {
+                wasPlayingBeforeHidden = false;
+                music.play().then(function() {
+                    updateState(true);
+                }).catch(function() {
+                    updateState(false);
+                });
+            }
+        }
+    });
+
+    window.addEventListener('pagehide', function() {
+        if (!music.paused) {
+            music.pause();
+        }
+    });
+})();
+/* MUSIC END */

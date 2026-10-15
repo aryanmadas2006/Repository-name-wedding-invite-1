@@ -214,7 +214,17 @@
             </div>
         </footer>
     </div>
-
+    <!-- MUSIC START -->
+    <audio id="bg-music" src="audio/music.mp3" loop preload="none"></audio>
+    <button id="music-toggle" class="music-toggle is-muted" type="button" aria-label="Play music">
+        <svg class="music-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none">
+            <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="6" cy="18" r="3" fill="currentColor"/>
+            <circle cx="18" cy="16" r="3" fill="currentColor"/>
+            <line class="music-slash" x1="3" y1="3" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </button>
+    <!-- MUSIC END -->
     <script src="script.js"></script>
 </body>
 </html>
