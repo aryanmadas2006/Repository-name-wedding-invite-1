@@ -648,3 +648,104 @@ setTimeout(() => {
     });
 })();
 /* MUSIC END */
+
+/* RSVP START */
+(function() {
+    const form = document.getElementById('rsvp-form');
+    if (!form) return;
+
+    const attendingRadios = form.querySelectorAll('input[name="attending"]');
+    const attendingGroups = form.querySelectorAll('.rsvp-attending-only');
+    const statusEl = document.getElementById('rsvp-status');
+    const submitBtn = document.getElementById('rsvp-submit');
+
+    function updateAttendingView() {
+        const selected = form.querySelector('input[name="attending"]:checked');
+        const isAttending = selected ? selected.value === 'Yes' : true;
+
+        attendingGroups.forEach(group => {
+            if (isAttending) {
+                group.classList.remove('is-hidden');
+                group.querySelectorAll('input, select').forEach(input => {
+                    input.disabled = false;
+                });
+            } else {
+                group.classList.add('is-hidden');
+                group.querySelectorAll('input, select').forEach(input => {
+                    input.disabled = true;
+                });
+            }
+        });
+    }
+
+    attendingRadios.forEach(radio => {
+        radio.addEventListener('change', updateAttendingView);
+    });
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            if (statusEl) {
+                statusEl.textContent = "Please fill in all required fields.";
+                statusEl.className = "rsvp-status is-error";
+            }
+            return;
+        }
+
+        if (statusEl) {
+            statusEl.textContent = "";
+            statusEl.className = "rsvp-status";
+        }
+
+        const originalBtnText = submitBtn ? submitBtn.textContent : "SEND RSVP";
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = "SENDING...";
+        }
+
+        try {
+            const formData = new FormData(form);
+            const attendingRadio = form.querySelector('input[name="attending"]:checked');
+            const isAttending = attendingRadio ? attendingRadio.value === 'Yes' : true;
+
+            const body = new URLSearchParams(formData).toString();
+            const response = await fetch("/", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: body
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            const fullName = (formData.get('name') || '').toString().trim();
+            const firstName = fullName.split(/\s+/)[0] || 'Friend';
+
+            const thankYouMessage = isAttending
+                ? `Thank you, ${firstName}. Your response has been received. We look forward to celebrating with you.`
+                : `Thank you, ${firstName}. We will miss you and are grateful for your blessings.`;
+
+            form.innerHTML = `
+                <div class="rsvp-thankyou" data-rev>
+                    <h3 class="serif rsvp-thankyou-title">Response Received</h3>
+                    <p class="serif rsvp-thankyou-text">${thankYouMessage}</p>
+                </div>
+            `;
+        } catch (err) {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
+            if (statusEl) {
+                statusEl.textContent = "Something went wrong. Please try again or contact us.";
+                statusEl.className = "rsvp-status is-error";
+            }
+        }
+    });
+
+    updateAttendingView();
+})();
+/* RSVP END */

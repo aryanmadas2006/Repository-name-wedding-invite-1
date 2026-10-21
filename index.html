@@ -194,6 +194,119 @@
             </div>
         </section>
 
+        <!-- RSVP START -->
+        <section class="static-section rsvp-section">
+            <div class="container">
+                <h2 data-split>RSVP</h2>
+                <p class="rsvp-sub mono" data-rev>KINDLY REPLY BY 15 NOVEMBER 2026</p>
+                <form name="rsvp" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" class="rsvp-form" id="rsvp-form">
+                    <input type="hidden" name="form-name" value="rsvp">
+                    <p class="rsvp-hidden" aria-hidden="true">
+                        <label>Don’t fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+                    </p>
+
+                    <div class="rsvp-group" data-rev>
+                        <label for="rsvp-name" class="rsvp-label mono">FULL NAME <span class="rsvp-required" aria-hidden="true">*</span></label>
+                        <input type="text" id="rsvp-name" name="name" class="rsvp-input serif" required autocomplete="name" placeholder="Your full name">
+                    </div>
+
+                    <div class="rsvp-group" data-rev>
+                        <label for="rsvp-phone" class="rsvp-label mono">WHATSAPP / PHONE <span class="rsvp-required" aria-hidden="true">*</span></label>
+                        <input type="tel" id="rsvp-phone" name="phone" class="rsvp-input serif" required autocomplete="tel" placeholder="+91 98765 43210">
+                    </div>
+
+                    <fieldset class="rsvp-group rsvp-fieldset" data-rev>
+                        <legend class="rsvp-label mono">WILL YOU BE ATTENDING? <span class="rsvp-required" aria-hidden="true">*</span></legend>
+                        <div class="rsvp-radio-group">
+                            <label for="rsvp-attending-yes" class="rsvp-choice-label">
+                                <input type="radio" id="rsvp-attending-yes" name="attending" value="Yes" required class="rsvp-radio" checked>
+                                <span class="rsvp-choice-text serif">Joyfully accept</span>
+                            </label>
+                            <label for="rsvp-attending-no" class="rsvp-choice-label">
+                                <input type="radio" id="rsvp-attending-no" name="attending" value="No" required class="rsvp-radio">
+                                <span class="rsvp-choice-text serif">Regretfully decline</span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <div class="rsvp-group rsvp-attending-only" data-rev>
+                        <label for="rsvp-guests" class="rsvp-label mono">NUMBER OF GUESTS (INCLUDING YOU)</label>
+                        <select id="rsvp-guests" name="guests" class="rsvp-select serif">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+
+                    <fieldset class="rsvp-group rsvp-fieldset rsvp-attending-only" data-rev>
+                        <legend class="rsvp-label mono">EVENTS YOU WILL ATTEND</legend>
+                        <div class="rsvp-checkbox-grid">
+                            <label for="rsvp-event-roka" class="rsvp-choice-label">
+                                <input type="checkbox" id="rsvp-event-roka" name="events" value="ROKA" class="rsvp-checkbox" checked>
+                                <span class="rsvp-choice-text serif">Roka</span>
+                            </label>
+                            <label for="rsvp-event-haldi" class="rsvp-choice-label">
+                                <input type="checkbox" id="rsvp-event-haldi" name="events" value="HALDI" class="rsvp-checkbox" checked>
+                                <span class="rsvp-choice-text serif">Haldi</span>
+                            </label>
+                            <label for="rsvp-event-mehendi" class="rsvp-choice-label">
+                                <input type="checkbox" id="rsvp-event-mehendi" name="events" value="MEHENDI" class="rsvp-checkbox" checked>
+                                <span class="rsvp-choice-text serif">Mehendi</span>
+                            </label>
+                            <label for="rsvp-event-sangeet" class="rsvp-choice-label">
+                                <input type="checkbox" id="rsvp-event-sangeet" name="events" value="SANGEET" class="rsvp-checkbox" checked>
+                                <span class="rsvp-choice-text serif">Sangeet</span>
+                            </label>
+                            <label for="rsvp-event-wedding" class="rsvp-choice-label">
+                                <input type="checkbox" id="rsvp-event-wedding" name="events" value="WEDDING" class="rsvp-checkbox" checked>
+                                <span class="rsvp-choice-text serif">Wedding</span>
+                            </label>
+                            <label for="rsvp-event-reception" class="rsvp-choice-label">
+                                <input type="checkbox" id="rsvp-event-reception" name="events" value="RECEPTION" class="rsvp-checkbox" checked>
+                                <span class="rsvp-choice-text serif">Reception</span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="rsvp-group rsvp-fieldset rsvp-attending-only" data-rev>
+                        <legend class="rsvp-label mono">DIETARY PREFERENCE</legend>
+                        <div class="rsvp-radio-group">
+                            <label for="rsvp-food-veg" class="rsvp-choice-label">
+                                <input type="radio" id="rsvp-food-veg" name="food" value="Vegetarian" class="rsvp-radio" checked>
+                                <span class="rsvp-choice-text serif">Vegetarian</span>
+                            </label>
+                            <label for="rsvp-food-nonveg" class="rsvp-choice-label">
+                                <input type="radio" id="rsvp-food-nonveg" name="food" value="Non-vegetarian" class="rsvp-radio">
+                                <span class="rsvp-choice-text serif">Non-vegetarian</span>
+                            </label>
+                            <label for="rsvp-food-jain" class="rsvp-choice-label">
+                                <input type="radio" id="rsvp-food-jain" name="food" value="Jain" class="rsvp-radio">
+                                <span class="rsvp-choice-text serif">Jain</span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <div class="rsvp-group" data-rev>
+                        <label for="rsvp-message" class="rsvp-label mono">A MESSAGE FOR THE COUPLE</label>
+                        <textarea id="rsvp-message" name="message" class="rsvp-textarea serif" rows="3" placeholder="Warm wishes or blessings..."></textarea>
+                    </div>
+
+                    <div class="rsvp-group rsvp-submit-group" data-rev>
+                        <button type="submit" id="rsvp-submit" class="rsvp-submit mono">SEND RSVP</button>
+                        <div class="rsvp-status" id="rsvp-status" aria-live="polite"></div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- RSVP END -->
+
         <section class="static-section faq-section">
             <div class="container">
                 <h2 data-split>FAQS</h2>
